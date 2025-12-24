@@ -8,11 +8,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Luxury Gold Palette
+        // Accent Color
         gold: {
-          DEFAULT: '#b89649',  // Main gold from realestatebycherylnj.com
-          light: '#d4af37',
-          dark: '#b8860b',
+          DEFAULT: '#890100',  // Main accent color
+          light: '#a00100',
+          dark: '#6b0000',
         },
         // Off-Black & Off-White for luxury feel
         'off-black': '#1a1a1a',
@@ -28,13 +28,12 @@ module.exports = {
         },
       },
       fontFamily: {
-        // Varela for body text
-        sans: ['Varela', 'system-ui', 'sans-serif'],
-        // Playfair Display for hero/elegant headings
-        serif: ['Playfair Display', 'serif'],
-        // Bodoni Moda for other headings
-        heading: ['Bodoni Moda', 'serif'],
-        body: ['Varela', 'sans-serif'],
+        // Montserrat for body text
+        sans: ['Montserrat', 'system-ui', 'sans-serif'],
+        // PT Serif for headings
+        serif: ['PT Serif', 'serif'],
+        heading: ['PT Serif', 'serif'],
+        body: ['Montserrat', 'sans-serif'],
       },
       animation: {
         'fade-in-left': 'fadeInLeft 0.6s ease-out',

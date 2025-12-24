@@ -2,18 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Luxury Fonts - Playfair Display (Hero/Headings), Bodoni Moda & Varela (Body) */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Varela&display=swap');
+/* Fonts - PT Serif (Headings), Montserrat (Body) */
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Off-Black & Off-White */
   --off-black: #1a1a1a;
   --off-white: #faf9f7;
   
-  /* Luxury Gold */
-  --gold: #b89649;
-  --gold-light: #d4af37;
-  --gold-dark: #b8860b;
+  /* Accent Color */
+  --accent: #890100;
+  --accent-light: #a00100;
+  --accent-dark: #6b0000;
   
   /* Gray Shades */
   --gray-light: #f5f4f2;
@@ -23,7 +23,7 @@
 
 @layer base {
   html {
-    font-family: 'Varela', system-ui, sans-serif;
+    font-family: 'Montserrat', system-ui, sans-serif;
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
   }
@@ -48,9 +48,9 @@
     transition-duration: 300ms;
   }
 
-  /* Headings with Bodoni Moda */
+  /* Headings with PT Serif */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Bodoni Moda', serif;
+    font-family: 'PT Serif', serif;
     font-weight: 400;
     color: var(--off-black);
   }
@@ -71,9 +71,9 @@
     @apply text-xl sm:text-2xl;
   }
 
-  /* Body text with Varela */
+  /* Body text with Montserrat */
   p, span, div, a, button, input, textarea, label {
-    font-family: 'Varela', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 }
 
@@ -160,7 +160,7 @@
 @layer components {
   /* Primary Button with gradient hover */
   .btn-primary {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-light));
+    background: linear-gradient(135deg, var(--accent), var(--accent));
     color: var(--off-white);
     font-weight: 700;
     padding: 1rem 2.5rem;
@@ -172,7 +172,7 @@
     display: inline-block;
     cursor: pointer;
     border: none;
-    font-family: 'Varela', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     position: relative;
     overflow: hidden;
   }
@@ -184,7 +184,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
     opacity: 0;
     transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: -1;
@@ -192,7 +192,7 @@
   
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(184, 150, 73, 0.4);
+    box-shadow: 0 8px 20px rgba(137, 1, 0, 0.4);
   }
   
   .btn-primary:hover::before {
@@ -201,8 +201,8 @@
   
   /* Outline Button with gradient hover */
   .btn-outline {
-    border: 2px solid var(--gold-light);
-    color: var(--gold-dark);
+    border: 2px solid var(--accent);
+    color: var(--accent-dark);
     background-color: transparent;
     font-weight: 700;
     padding: 1rem 2.5rem;
@@ -213,7 +213,7 @@
     transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-block;
     cursor: pointer;
-    font-family: 'Varela', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     position: relative;
     overflow: hidden;
   }
@@ -225,7 +225,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
     opacity: 0;
     transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: -1;
@@ -233,9 +233,9 @@
   
   .btn-outline:hover {
     color: var(--off-white);
-    border-color: var(--gold-dark);
+    border-color: var(--accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(184, 150, 73, 0.3);
+    box-shadow: 0 8px 20px rgba(137, 1, 0, 0.3);
   }
   
   .btn-outline:hover::before {
@@ -283,7 +283,7 @@
     left: 0;
     width: 64px;
     height: 2px;
-    background-color: var(--gold-light);
+    background-color: var(--accent);
   }
   
   /* Centered Heading Underline - Luxury Style */
@@ -302,9 +302,9 @@
     height: 2px;
     background: linear-gradient(90deg, 
       transparent, 
-      var(--gold-light) 20%, 
-      var(--gold-dark) 50%, 
-      var(--gold-light) 80%, 
+      var(--accent-light) 20%, 
+      var(--accent) 50%, 
+      var(--accent-light) 80%, 
       transparent
     );
   }
@@ -323,28 +323,28 @@
     width: 80px;
     height: 2px;
     background: linear-gradient(90deg, 
-      var(--gold-dark), 
-      var(--gold-light), 
+      var(--accent-dark), 
+      var(--accent), 
       transparent
     );
   }
   
-  /* Text Gold Color */
+  /* Text Accent Color */
   .text-gold {
-    color: var(--gold-light);
+    color: var(--accent);
   }
 
   .text-gold-dark {
-    color: var(--gold-dark);
+    color: var(--accent-dark);
   }
 
-  /* Background Gold */
+  /* Background Accent */
   .bg-gold {
-    background-color: var(--gold-light);
+    background-color: var(--accent);
   }
 
   .bg-gold-dark {
-    background-color: var(--gold-dark);
+    background-color: var(--accent-dark);
   }
 
   /* Off-White Background */
@@ -378,18 +378,18 @@
   /* Input Focus Styles */
   input:focus,
   textarea:focus {
-    outline: 2px solid var(--gold-light);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 
   /* Selection Color */
   ::selection {
-    background-color: var(--gold-light);
+    background-color: var(--accent);
     color: var(--off-white);
   }
 
   ::-moz-selection {
-    background-color: var(--gold-light);
+    background-color: var(--accent);
     color: var(--off-white);
   }
 }
@@ -423,9 +423,9 @@
     opacity: 0.8;
   }
 
-  /* Text Gradient Gold */
+  /* Text Gradient Accent */
   .text-gradient-gold {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -502,11 +502,11 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Enhanced gold glow utility class */
+/* Enhanced accent glow utility class */
 .gold-glow {
-  box-shadow: 0 0 20px rgba(184, 150, 73, 0.4);
+  box-shadow: 0 0 20px rgba(137, 1, 0, 0.4);
 }
 
 .gold-glow-strong {
-  box-shadow: 0 0 30px rgba(184, 150, 73, 0.6);
+  box-shadow: 0 0 30px rgba(137, 1, 0, 0.6);
 }

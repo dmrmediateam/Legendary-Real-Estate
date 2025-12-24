@@ -55,18 +55,25 @@ const SearchProperties = () => {
 
   if (!isClient) {
     return (
-      <section className="section-padding bg-white">
-        <div className="container-max">
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <h2 className="scroll-animate text-3xl sm:text-4xl font-serif font-light text-black mb-4 heading-underline pb-4">
+            <div className="w-24 h-px bg-[#890100] mx-auto mb-12"></div>
+            <h2 className="scroll-animate text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-black mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
               Search Properties
             </h2>
-            <p className="scroll-animate text-base text-gray-dark max-w-2xl mx-auto mt-8">
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="w-12 h-px bg-[#890100]"></div>
+              <span className="text-[#890100] font-serif text-2xl">•</span>
+              <div className="w-12 h-px bg-[#890100]"></div>
+            </div>
+            <p className="scroll-animate text-sm text-black/70 max-w-2xl mx-auto font-serif" style={{ letterSpacing: '0.02em' }}>
               Find your dream home with our advanced search tools.
             </p>
+            <div className="w-24 h-px bg-[#890100] mx-auto mt-12"></div>
           </div>
-          <div className="scroll-animate w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
-            <div className="text-gray-500">Loading property search...</div>
+          <div className="scroll-animate w-full h-32 bg-black/5 flex items-center justify-center">
+            <div className="text-black/40 font-serif text-xs tracking-[0.1em] uppercase">Loading property search...</div>
           </div>
         </div>
       </section>
@@ -74,15 +81,22 @@ const SearchProperties = () => {
   }
 
   return (
-    <section className="section-padding bg-white">
-      <div className="container-max">
+    <section className="py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-16">
-          <h2 className="scroll-animate text-3xl sm:text-4xl font-serif font-light text-black mb-4 heading-underline pb-4">
+          <div className="w-24 h-px bg-[#890100] mx-auto mb-12"></div>
+          <h2 className="scroll-animate text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-black mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
             Search Properties
           </h2>
-          <p className="scroll-animate text-base text-gray-dark max-w-2xl mx-auto mt-8">
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="w-12 h-px bg-[#890100]"></div>
+            <span className="text-[#890100] font-serif text-2xl">•</span>
+            <div className="w-12 h-px bg-[#890100]"></div>
+          </div>
+          <p className="scroll-animate text-sm text-black/70 max-w-2xl mx-auto font-serif" style={{ letterSpacing: '0.02em' }}>
             Find your dream home with our advanced search tools.
           </p>
+          <div className="w-24 h-px bg-[#890100] mx-auto mt-12"></div>
         </div>
 
         {/* iHomeFinder Kestrel Search Widget */}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bodoni_Moda, Varela } from 'next/font/google'
+import { PT_Serif, Montserrat } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import Navbar from '@/components/Navbar'
@@ -7,26 +7,26 @@ import Footer from '@/components/Footer'
 import ScrollAnimations from '@/components/ScrollAnimations'
 import ScrollProgressBar from '@/components/ScrollProgressBar'
 
-// Bodoni Moda for headings - Elegant luxury serif
-const bodoniModa = Bodoni_Moda({ 
+// PT Serif for headings
+const ptSerif = PT_Serif({ 
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-bodoni',
+  weight: ['400', '700'],
+  variable: '--font-pt-serif',
   display: 'swap',
 })
 
-// Varela for body text - Clean, modern sans-serif
-const varela = Varela({ 
-  weight: '400',
+// Montserrat for body text
+const montserrat = Montserrat({ 
+  weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
-  variable: '--font-varela',
+  variable: '--font-montserrat',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Cheryl Towey - Real Estate Professional',
-  description: 'Professional real estate services in New Jersey. Find your dream home with Cheryl Towey.',
-  keywords: 'real estate, New Jersey, homes for sale, property listings, Cheryl Towey',
+  title: 'Legendary Real Estate Services - Your Lake Geneva WI Real Estate Team',
+  description: 'Boutique by Design. Legendary by Result. Your trusted real estate team in Lake Geneva, WI and the Geneva Lakes area.',
+  keywords: 'real estate, Lake Geneva, Wisconsin, homes for sale, property listings, Legendary Real Estate Services',
 }
 
 export default function RootLayout({
@@ -35,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${bodoniModa.variable} ${varela.variable}`}>
-      <body className={varela.className}>
+    <html lang="en" className={`${ptSerif.variable} ${montserrat.variable}`}>
+      <body className={montserrat.className}>
         <Script
           src="https://kestrel.idxhome.com/ihf-kestrel.js"
           strategy="beforeInteractive"
