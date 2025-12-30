@@ -2,11 +2,40 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
+import type { BrandSettings } from '@/lib/brandSettings';
+import { getLogoUrl } from '@/lib/brandSettings';
 
-const Footer = () => {
+interface FooterProps {
+  brandSettings: BrandSettings | null;
+}
+
+const Footer = ({ brandSettings }: FooterProps) => {
   const currentYear = new Date().getFullYear();
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [isAreasExpanded, setIsAreasExpanded] = useState(false);
+
+  // Get brand values from settings
+  const primaryColor = brandSettings?.colors?.primary || '#890100';
+  const brandName = brandSettings?.coreIdentity?.brandName || 'Legendary Real Estate Services';
+  const tagline = brandSettings?.coreIdentity?.tagline || 'Boutique by Design. Legendary by Result.';
+  
+  // Get footer content from settings
+  const footerColumns = brandSettings?.footer?.columns || [];
+  const footerAddress = brandSettings?.footer?.address || '487 W South St\nLake Geneva, WI 53147';
+  const footerPhone = brandSettings?.footer?.phone || '262-204-5534';
+  const footerEmail = brandSettings?.footer?.email;
+  const footerBusinessHours = brandSettings?.footer?.businessHours;
+  const socialLinks = brandSettings?.footer?.socialLinks || [];
+  const legalLinks = brandSettings?.footer?.legalLinks || [
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+    { label: 'Accessibility', href: '/accessibility' },
+  ];
+  
+  // Get logo
+  const primaryLogo = brandSettings?.logos?.primaryLogo;
+  const logoUrl = primaryLogo ? getLogoUrl(primaryLogo) : null;
 
   const toggleAccordion = (section: string) => {
     setOpenAccordion(openAccordion === section ? null : section);
@@ -93,7 +122,7 @@ const Footer = () => {
   const displayedAreas = isAreasExpanded ? allAreas : mainAreas.slice(0, initialCount);
 
   return (
-    <footer className="bg-black text-white border-t border-[#890100]">
+    <footer className="bg-black text-white border-t" style={{ borderTopColor: primaryColor }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Explore Areas Section */}
         <div className="border-b border-white/10 py-12">
@@ -132,178 +161,224 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-8 group">
-              <div className="flex items-center gap-2">
-                <span className="text-xl font-serif font-normal text-white tracking-[0.1em] uppercase">Legendary</span>
-                <span className="text-[#890100] font-serif text-xl">•</span>
-              </div>
-              <div className="w-0 h-px bg-[#890100] transition-all duration-500 group-hover:w-full mt-2"></div>
+              {logoUrl ? (
+                <Image 
+                  src={logoUrl} 
+                  alt={brandName} 
+                  width={200} 
+                  height={60}
+                  className="h-8 lg:h-10 w-auto mb-2"
+                />
+              ) : (
+                <>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-serif font-normal text-white tracking-[0.1em] uppercase">{brandName.split(' ')[0]}</span>
+                    <span className="font-serif text-xl" style={{ color: primaryColor }}>•</span>
+                  </div>
+                  <div className="w-0 h-px transition-all duration-500 group-hover:w-full mt-2" style={{ backgroundColor: primaryColor }}></div>
+                </>
+              )}
             </Link>
             <p className="text-white/60 text-xs leading-relaxed mb-8 font-serif" style={{ letterSpacing: '0.02em' }}>
-              Boutique by Design. Legendary by Result. Your trusted real estate team in Lake Geneva, WI and the Geneva Lakes area.
+              {tagline}
             </p>
-            <div className="text-xs text-white/50 font-serif space-y-1">
-              <div>487 W South St</div>
-              <div>Lake Geneva, WI 53147</div>
+            <div className="text-xs text-white/50 font-serif space-y-1 whitespace-pre-line">
+              {footerAddress.split('\n').map((line, i) => (
+                <div key={i}>{line}</div>
+              ))}
             </div>
           </div>
 
-          {/* Navigate */}
-          <div>
-            <h4 className="text-xs font-serif font-normal text-[#890100] uppercase tracking-[0.2em] mb-8">Navigate</h4>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Home
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  About
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/listings" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Properties
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Contact
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Blog
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h4 className="text-xs font-serif font-normal text-[#890100] uppercase tracking-[0.2em] mb-8">Resources</h4>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/market-reports" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Market Reports
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/buyers" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Buyer's Guide
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/sellers" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Seller's Guide
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/testimonials" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Testimonials
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Communities */}
-          <div>
-            <h4 className="text-xs font-serif font-normal text-[#890100] uppercase tracking-[0.2em] mb-8">Communities</h4>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/communities/lake-geneva" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Lake Geneva
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/communities/fontana" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Fontana
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/communities/salem" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Salem
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/communities/burlington" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Burlington
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/communities/elkhorn" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Elkhorn
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/communities/delavan" className="text-white/60 hover:text-[#890100] transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group">
-                  Delavan
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Footer Columns from Brand Settings */}
+          {footerColumns.length > 0 ? (
+            footerColumns.map((column, colIndex) => (
+              <div key={colIndex}>
+                <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>
+                  {column.title}
+                </h4>
+                <ul className="space-y-4">
+                  {column.links?.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <Link 
+                        href={link.href || '#'} 
+                        className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
+                        onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                        onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                      >
+                        {link.label}
+                        <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <>
+              {/* Default Navigate Column */}
+              <div>
+                <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>Navigate</h4>
+                <ul className="space-y-4">
+                  <li>
+                    <Link href="/" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                    >
+                      Home
+                      <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                    >
+                      About
+                      <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/listings" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                    >
+                      Properties
+                      <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/contact" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                    >
+                      Contact
+                      <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/blog" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                    >
+                      Blog
+                      <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs font-serif font-normal text-[#890100] uppercase tracking-[0.2em] mb-8">Contact</h4>
+            <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>Contact</h4>
             <div className="space-y-6 text-xs text-white/60 font-serif mb-8">
+              {footerPhone && (
+                <div>
+                  <span className="text-white/40 uppercase tracking-[0.2em] text-[10px] block mb-2">Phone</span>
+                  <a 
+                    href={`tel:${footerPhone.replace(/\D/g, '')}`} 
+                    className="text-white/80 transition-colors duration-300"
+                    onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)'}
+                  >
+                    {footerPhone}
+                  </a>
+                </div>
+              )}
+              {footerEmail && (
+                <div>
+                  <span className="text-white/40 uppercase tracking-[0.2em] text-[10px] block mb-2">Email</span>
+                  <a 
+                    href={`mailto:${footerEmail}`} 
+                    className="text-white/80 transition-colors duration-300"
+                    onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)'}
+                  >
+                    {footerEmail}
+                  </a>
+                </div>
+              )}
+              {footerBusinessHours && (
+                <div>
+                  <span className="text-white/40 uppercase tracking-[0.2em] text-[10px] block mb-2">Hours</span>
+                  <div className="text-white/80 whitespace-pre-line">{footerBusinessHours}</div>
+                </div>
+              )}
+            </div>
+            {socialLinks.length > 0 && (
               <div>
-                <span className="text-white/40 uppercase tracking-[0.2em] text-[10px] block mb-2">Phone</span>
-                <a href="tel:2622045534" className="text-white/80 hover:text-[#890100] transition-colors duration-300">
-                  262-204-5534
-                </a>
+                <h5 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-4" style={{ color: primaryColor }}>Follow</h5>
+                <div className="flex space-x-4">
+                  {socialLinks.map((social, index) => {
+                    const getIcon = (platform: string) => {
+                      switch (platform?.toLowerCase()) {
+                        case 'facebook':
+                          return (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                          );
+                        case 'youtube':
+                          return (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                          );
+                        case 'instagram':
+                          return (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                          );
+                        case 'linkedin':
+                          return (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                          );
+                        case 'twitter':
+                          return (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                          );
+                        default:
+                          return null;
+                      }
+                    };
+                    
+                    return (
+                      <a
+                        key={index}
+                        href={social.url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${brandName} on ${social.platform}`}
+                        className="w-8 h-8 border border-white/20 text-white/60 flex items-center justify-center transition-all duration-300"
+                        style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = primaryColor;
+                          e.currentTarget.style.color = primaryColor;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+                        }}
+                      >
+                        {getIcon(social.platform || '')}
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-            <div>
-              <h5 className="text-xs font-serif font-normal text-[#890100] uppercase tracking-[0.2em] mb-4">Follow</h5>
-              <div className="flex space-x-4">
-                {/* Facebook */}
-                <a 
-                  href="https://www.facebook.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  aria-label="Visit Legendary Real Estate Services on Facebook"
-                  className="w-8 h-8 border border-white/20 hover:border-[#890100] text-white/60 hover:text-[#890100] flex items-center justify-center transition-all duration-300"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                </a>
-                {/* YouTube */}
-                <a 
-                  href="https://www.youtube.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  aria-label="Visit Legendary Real Estate Services on YouTube"
-                  className="w-8 h-8 border border-white/20 hover:border-[#890100] text-white/60 hover:text-[#890100] flex items-center justify-center transition-all duration-300"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                  </svg>
-                </a>
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
         {/* Legal & Compliance Accordions */}
         <div className="border-t border-white/10 py-12">
-          <h4 className="text-xs font-serif font-normal text-[#890100] uppercase tracking-[0.2em] mb-8">Legal & Compliance</h4>
+          <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>Legal & Compliance</h4>
           <div className="space-y-3">
             {/* MLS Disclaimer Accordion */}
             <div className="border border-white/10 bg-black/50 overflow-hidden">
@@ -315,13 +390,14 @@ const Footer = () => {
                   MLS Disclaimer & Notification
                 </span>
                 <svg
-                  className={`w-4 h-4 text-[#890100] transition-transform duration-300 ${
+                  className={`w-4 h-4 transition-transform duration-300 ${
                     openAccordion === 'mls' ? 'rotate-180' : ''
                   }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
+                  style={{ color: primaryColor }}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -352,13 +428,14 @@ const Footer = () => {
                   Fair Housing & Equal Opportunity
                 </span>
                 <svg
-                  className={`w-4 h-4 text-[#890100] transition-transform duration-300 ${
+                  className={`w-4 h-4 transition-transform duration-300 ${
                     openAccordion === 'fairhousing' ? 'rotate-180' : ''
                   }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
+                  style={{ color: primaryColor }}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -389,13 +466,14 @@ const Footer = () => {
                   Professional Licensing & Realtor Information
                 </span>
                 <svg
-                  className={`w-4 h-4 text-[#890100] transition-transform duration-300 ${
+                  className={`w-4 h-4 transition-transform duration-300 ${
                     openAccordion === 'licensing' ? 'rotate-180' : ''
                   }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
+                  style={{ color: primaryColor }}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -427,19 +505,28 @@ const Footer = () => {
         <div className="border-t border-white/10 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-white/50 text-xs font-serif tracking-[0.05em]">
-              © {currentYear} Legendary Real Estate Services. All rights reserved.
+              © {currentYear} {brandName}. All rights reserved.
             </div>
             <div className="flex flex-wrap justify-center gap-6 text-xs">
-              <Link href="/privacy-policy" className="text-white/50 hover:text-[#890100] transition-colors duration-300 font-serif tracking-[0.1em] uppercase">
-                Privacy Policy
-              </Link>
-              <Link href="/terms-and-conditions" className="text-white/50 hover:text-[#890100] transition-colors duration-300 font-serif tracking-[0.1em] uppercase">
-                Terms & Conditions
-              </Link>
-              <Link href="/accessibility" className="text-white/50 hover:text-[#890100] transition-colors duration-300 font-serif tracking-[0.1em] uppercase">
-                Accessibility
-              </Link>
-              <a href="https://dmrmedia.org" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-[#890100] transition-colors duration-300 font-serif tracking-[0.1em] uppercase">
+              {legalLinks.map((link, index) => (
+                <Link 
+                  key={index}
+                  href={link.href || '#'} 
+                  className="text-white/50 transition-colors duration-300 font-serif tracking-[0.1em] uppercase"
+                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)'}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <a 
+                href="https://dmrmedia.org" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/50 transition-colors duration-300 font-serif tracking-[0.1em] uppercase"
+                onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)'}
+              >
                 Development & SEO Managed by DMR Media
               </a>
             </div>

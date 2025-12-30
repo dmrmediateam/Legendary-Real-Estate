@@ -278,56 +278,101 @@ export default defineType({
       type: 'object',
       fields: [
         defineField({
-          name: 'heroMedia',
-          title: 'Hero Media (Image/Video)',
-          type: 'object',
+          name: 'heroImage',
+          title: 'Hero Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
           fields: [
-            { name: 'type', type: 'string', options: { list: ['image', 'video'] } },
-            { name: 'assetId', type: 'string' },
-            { name: 'url', type: 'url' },
-            { name: 'title', type: 'string' },
-            { name: 'caption', type: 'text' },
-            { name: 'altText', type: 'string' },
-            { name: 'width', type: 'number' },
-            { name: 'height', type: 'number' },
-            { name: 'sizeBytes', type: 'number' },
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative Text',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
           ],
         }),
         defineField({
+          name: 'heroVideoUrl',
+          title: 'Hero Video URL (YouTube)',
+          type: 'url',
+          description: 'YouTube video URL for hero video (if using video instead of image)',
+        }),
+        defineField({
           name: 'gallery',
-          title: 'Gallery',
+          title: 'Gallery Images',
           type: 'array',
           of: [
             {
-              type: 'object',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
               fields: [
-                { name: 'assetId', type: 'string', title: 'Asset ID' },
-                { name: 'type', type: 'string', title: 'Type', options: { list: ['image', 'video'] } },
-                { name: 'url', type: 'url', title: 'URL' },
-                { name: 'title', type: 'string', title: 'Title' },
-                { name: 'caption', type: 'text', title: 'Caption' },
-                { name: 'altText', type: 'string', title: 'Alt Text' },
-                { name: 'width', type: 'number', title: 'Width' },
-                { name: 'height', type: 'number', title: 'Height' },
-                { name: 'sizeBytes', type: 'number', title: 'Size (bytes)' },
-                { name: 'sortOrder', type: 'number', title: 'Sort Order' },
+                {
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alternative Text',
+                },
+                {
+                  name: 'caption',
+                  type: 'string',
+                  title: 'Caption',
+                },
+                {
+                  name: 'sortOrder',
+                  type: 'number',
+                  title: 'Sort Order',
+                  initialValue: 0,
+                },
               ],
             },
           ],
         }),
         defineField({
-          name: 'videoUrl',
-          title: 'Video URL (YouTube/Vimeo)',
-          type: 'url',
+          name: 'videoUrls',
+          title: 'Video URLs (YouTube)',
+          type: 'array',
+          description: 'YouTube video URLs for property videos',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'url',
+                  type: 'url',
+                  title: 'YouTube URL',
+                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  name: 'title',
+                  type: 'string',
+                  title: 'Video Title',
+                },
+                {
+                  name: 'description',
+                  type: 'text',
+                  title: 'Description',
+                  rows: 2,
+                },
+              ],
+            },
+          ],
         }),
         defineField({
           name: 'videoEmbedSettings',
           title: 'Video Embed Settings',
           type: 'object',
           fields: [
-            { name: 'autoplay', type: 'boolean' },
-            { name: 'loop', type: 'boolean' },
-            { name: 'muted', type: 'boolean' },
+            { name: 'autoplay', type: 'boolean', initialValue: false },
+            { name: 'loop', type: 'boolean', initialValue: false },
+            { name: 'muted', type: 'boolean', initialValue: false },
           ],
         }),
         defineField({
@@ -341,11 +386,20 @@ export default defineType({
           type: 'array',
           of: [
             {
-              type: 'object',
+              type: 'file',
+              title: 'Floor Plan File',
               fields: [
-                { name: 'fileId', type: 'string', title: 'File ID' },
-                { name: 'url', type: 'url', title: 'URL' },
-                { name: 'title', type: 'string', title: 'Title' },
+                {
+                  name: 'title',
+                  type: 'string',
+                  title: 'Title',
+                },
+                {
+                  name: 'description',
+                  type: 'text',
+                  title: 'Description',
+                  rows: 2,
+                },
               ],
             },
           ],
@@ -356,12 +410,26 @@ export default defineType({
           type: 'array',
           of: [
             {
-              type: 'object',
+              type: 'file',
+              title: 'Document File',
               fields: [
-                { name: 'fileId', type: 'string', title: 'File ID' },
-                { name: 'url', type: 'url', title: 'URL' },
-                { name: 'title', type: 'string', title: 'Title' },
-                { name: 'type', type: 'string', title: 'Type', options: { list: ['brochure', 'disclosures', 'other'] } },
+                {
+                  name: 'title',
+                  type: 'string',
+                  title: 'Title',
+                },
+                {
+                  name: 'type',
+                  type: 'string',
+                  title: 'Document Type',
+                  options: {
+                    list: [
+                      { title: 'Brochure', value: 'brochure' },
+                      { title: 'Disclosures', value: 'disclosures' },
+                      { title: 'Other', value: 'other' },
+                    ],
+                  },
+                },
               ],
             },
           ],
@@ -802,7 +870,7 @@ export default defineType({
     select: {
       title: 'content.headline',
       subtitle: 'listingCore.price',
-      media: 'media.heroMedia',
+      media: 'media.heroImage',
     },
     prepare(selection) {
       const { title, subtitle } = selection
@@ -813,5 +881,6 @@ export default defineType({
     },
   },
 })
+
 
 

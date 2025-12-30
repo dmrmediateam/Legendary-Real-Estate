@@ -2,19 +2,39 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
+import type { BrandSettings } from '@/lib/brandSettings';
+import { getLogoUrl } from '@/lib/brandSettings';
 
-const Navbar = () => {
+interface NavbarProps {
+  brandSettings: BrandSettings | null;
+}
+
+const Navbar = ({ brandSettings }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCommunitiesOpen, setIsCommunitiesOpen] = useState(false);
   const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
 
-  const navigation = [
-    { name: 'Buyers', href: '/buyers' },
-    { name: 'Sellers', href: '/sellers' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+  // Get colors from brand settings or use defaults
+  const primaryColor = brandSettings?.colors?.primary || '#890100';
+  const brandName = brandSettings?.coreIdentity?.brandName || 'Legendary';
+  
+  // Get navigation items from brand settings or use defaults
+  const navItems = brandSettings?.header?.navItems || [
+    { label: 'Buyers', linkType: 'internal', href: '/buyers' },
+    { label: 'Sellers', linkType: 'internal', href: '/sellers' },
+    { label: 'About', linkType: 'internal', href: '/about' },
+    { label: 'Contact', linkType: 'internal', href: '/contact' },
   ];
 
+  // Get CTA button from brand settings
+  const ctaButton = brandSettings?.header?.ctaButton;
+  
+  // Get logo
+  const primaryLogo = brandSettings?.logos?.primaryLogo;
+  const logoUrl = primaryLogo ? getLogoUrl(primaryLogo) : null;
+
+  // Communities - could be extracted from navItems dropdown, but keeping hardcoded for now
   const communities = [
     { name: 'Lake Geneva', href: '/communities/lake-geneva' },
     { name: 'Fontana', href: '/communities/fontana' },
@@ -25,91 +45,123 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white/95 backdrop-blur-sm sticky top-0 z-[9999] border-b border-[#890100]/10">
+    <nav className="bg-white/95 backdrop-blur-sm sticky top-0 z-[9999]" style={{ borderBottomColor: `${primaryColor}20` }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center py-4 lg:py-6">
-          {/* Logo - Elegant serif with red accent */}
+          {/* Logo - From brand settings or text fallback */}
           <Link href="/" className="flex items-center z-10 group">
-            <div className="relative">
-              <span className="text-xl lg:text-2xl font-serif font-normal text-black tracking-[0.1em] uppercase">
-                Legendary
-              </span>
-              <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></div>
-            </div>
-            <span className="text-[#890100] mx-2 font-serif text-xl">•</span>
-            <span className="text-xs lg:text-sm font-serif font-light text-black/60 tracking-[0.2em] uppercase hidden sm:inline">
-              Real Estate
-            </span>
+            {logoUrl ? (
+              <Image 
+                src={logoUrl} 
+                alt={brandName} 
+                width={200} 
+                height={60}
+                className="h-8 lg:h-10 w-auto"
+              />
+            ) : (
+              <>
+                <div className="relative">
+                  <span className="text-xl lg:text-2xl font-serif font-normal text-black tracking-[0.1em] uppercase">
+                    {brandName}
+                  </span>
+                  <div className="absolute -bottom-1 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></div>
+                </div>
+                <span className="mx-2 font-serif text-xl" style={{ color: primaryColor }}>•</span>
+                <span className="text-xs lg:text-sm font-serif font-light text-black/60 tracking-[0.2em] uppercase hidden sm:inline">
+                  Real Estate
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Right Side - Desktop Nav + Menu Button */}
           <div className="flex items-center gap-6 lg:gap-12">
-            {/* Desktop Navigation - Minimal, elegant */}
+            {/* Desktop Navigation - From brand settings */}
             <div className="hidden lg:flex items-center gap-8">
-              <Link
-                href="/buyers"
-                className="text-black/70 hover:text-[#890100] font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 relative group"
-                style={{ fontWeight: 300, letterSpacing: '0.15em' }}
-              >
-                Buyers
-                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/sellers"
-                className="text-black/70 hover:text-[#890100] font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 relative group"
-                style={{ fontWeight: 300, letterSpacing: '0.15em' }}
-              >
-                Sellers
-                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-              {/* Communities dropdown */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsCommunitiesOpen(!isCommunitiesOpen)}
-                  className="text-black/70 hover:text-[#890100] font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 flex items-center gap-2 relative group"
-                  style={{ fontWeight: 300, letterSpacing: '0.15em' }}
-                  aria-haspopup="menu"
-                  aria-expanded={isCommunitiesOpen}
-                >
-                  Communities
-                  <svg className={`w-3 h-3 transition-transform duration-300 ${isCommunitiesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-                </button>
-                {isCommunitiesOpen && (
-                  <div className="absolute right-0 mt-4 w-56 bg-white border border-black/10 shadow-2xl p-4 z-[10000]">
-                    <div className="space-y-1">
-                      {communities.map((community) => (
-                        <Link
-                          key={community.name}
-                          href={community.href}
-                          className="block px-3 py-2 text-xs text-black/60 hover:text-[#890100] hover:bg-black/5 transition-all duration-300 font-serif tracking-[0.1em] uppercase"
-                          onClick={() => setIsCommunitiesOpen(false)}
-                        >
-                          {community.name}
-                        </Link>
-                      ))}
+              {navItems.map((item) => {
+                if (item.linkType === 'dropdown' && item.children) {
+                  return (
+                    <div key={item.label} className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setIsCommunitiesOpen(!isCommunitiesOpen)}
+                        className="text-black/70 font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 flex items-center gap-2 relative group"
+                        style={{ fontWeight: 300, letterSpacing: '0.15em', color: isCommunitiesOpen ? primaryColor : undefined }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                        onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.7)'}
+                      >
+                        {item.label}
+                        <svg className={`w-3 h-3 transition-transform duration-300 ${isCommunitiesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                        <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                      </button>
+                      {isCommunitiesOpen && (
+                        <div className="absolute right-0 mt-4 w-56 bg-white border border-black/10 shadow-2xl p-4 z-[10000]">
+                          <div className="space-y-1">
+                            {item.children.map((child) => (
+                              <Link
+                                key={child.label}
+                                href={child.href || '#'}
+                                className="block px-3 py-2 text-xs text-black/60 hover:bg-black/5 transition-all duration-300 font-serif tracking-[0.1em] uppercase"
+                                style={{ color: primaryColor }}
+                                onClick={() => setIsCommunitiesOpen(false)}
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                )}
-              </div>
-              <Link
-                href="/listings"
-                className="text-black/70 hover:text-[#890100] font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 relative group"
-                style={{ fontWeight: 300, letterSpacing: '0.15em' }}
-              >
-                Listings
-                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href || '#'}
+                    className="text-black/70 font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 relative group"
+                    style={{ fontWeight: 300, letterSpacing: '0.15em' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.7)'}
+                  >
+                    {item.label}
+                    <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                  </Link>
+                );
+              })}
             </div>
+            
+            {/* CTA Button from brand settings */}
+            {ctaButton && (
+              <Link
+                href={ctaButton.href || '#'}
+                className="hidden lg:inline-block border px-6 py-2 font-serif text-xs tracking-[0.1em] uppercase transition-all duration-300"
+                style={{ 
+                  borderColor: primaryColor,
+                  color: primaryColor,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = primaryColor;
+                  e.currentTarget.style.color = '#fff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = primaryColor;
+                }}
+              >
+                {ctaButton.label}
+              </Link>
+            )}
 
             {/* Menu button - Elegant lines */}
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 text-black/70 hover:text-[#890100] z-[10000] relative transition-colors duration-300"
+              className="lg:hidden p-2 text-black/70 z-[10000] relative transition-colors duration-300"
+              style={{ color: isMenuOpen ? primaryColor : undefined }}
+              onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.7)'}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
             >
@@ -122,7 +174,10 @@ const Navbar = () => {
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="hidden lg:flex items-center gap-2 text-black/70 hover:text-[#890100] font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 relative group"
+              className="hidden lg:flex items-center gap-2 text-black/70 font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 relative group"
+              style={{ color: isMenuOpen ? primaryColor : undefined }}
+              onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.7)'}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
             >
@@ -151,16 +206,19 @@ const Navbar = () => {
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* Decorative Red Border */}
-        <div className="absolute top-0 left-0 w-full h-px bg-[#890100]"></div>
-        <div className="absolute bottom-0 left-0 w-full h-px bg-[#890100]"></div>
-        <div className="absolute top-0 left-0 w-px h-full bg-[#890100]"></div>
+        {/* Decorative Border */}
+        <div className="absolute top-0 left-0 w-full h-px" style={{ backgroundColor: primaryColor }}></div>
+        <div className="absolute bottom-0 left-0 w-full h-px" style={{ backgroundColor: primaryColor }}></div>
+        <div className="absolute top-0 left-0 w-px h-full" style={{ backgroundColor: primaryColor }}></div>
         
         {/* Close Button - Always Visible */}
         <button
           type="button"
           onClick={() => setIsMenuOpen(false)}
-          className="absolute top-6 right-6 md:top-8 md:right-8 z-[10001] p-3 text-black/70 hover:text-[#890100] transition-all duration-300 group"
+          className="absolute top-6 right-6 md:top-8 md:right-8 z-[10001] p-3 text-black/70 transition-all duration-300 group"
+          style={{ color: primaryColor }}
+          onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.7)'}
           aria-label="Close menu"
         >
           <div className="flex flex-col gap-1.5 w-6 items-center justify-center">
@@ -175,45 +233,51 @@ const Navbar = () => {
               
               {/* Left Side - Navigation */}
               <div className="flex flex-col justify-center space-y-8">
-                <h2 className="text-xs uppercase tracking-[0.3em] text-[#890100] mb-4 font-serif font-normal">Navigation</h2>
+                <h2 className="text-xs uppercase tracking-[0.3em] mb-4 font-serif font-normal" style={{ color: primaryColor }}>Navigation</h2>
                 
                 <Link
                   href="/"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black hover:text-[#890100] transition-all duration-500 tracking-[0.05em] relative group"
+                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ letterSpacing: '0.05em' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                 >
                   Home
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
 
                 {/* Communities Section (collapsible) */}
                 <div className="space-y-4">
                   <button
                     type="button"
-                    className="text-3xl md:text-4xl font-serif font-normal text-black hover:text-[#890100] transition-all duration-500 tracking-[0.05em] flex items-center gap-3 relative group w-fit"
+                    className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] flex items-center gap-3 relative group w-fit"
                     onClick={() => setIsMobileCommunitiesOpen(!isMobileCommunitiesOpen)}
                     aria-expanded={isMobileCommunitiesOpen}
                     aria-controls="mobile-communities"
-                    style={{ letterSpacing: '0.05em' }}
+                    style={{ letterSpacing: '0.05em', color: isMobileCommunitiesOpen ? primaryColor : undefined }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                    onMouseLeave={(e) => e.currentTarget.style.color = isMobileCommunitiesOpen ? primaryColor : '#000'}
                   >
                     Communities
                     <svg className={`w-5 h-5 transition-transform duration-500 ${isMobileCommunitiesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
-                    <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                    <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                   </button>
                   {isMobileCommunitiesOpen && (
-                    <div id="mobile-communities" className="pl-6 space-y-3 border-l border-[#890100]/20">
+                    <div id="mobile-communities" className="pl-6 space-y-3 border-l" style={{ borderColor: `${primaryColor}33` }}>
                       {communities.map((community) => (
                         <Link
                           key={community.name}
                           href={community.href}
-                          className="block text-lg md:text-xl font-serif font-light text-black/60 hover:text-[#890100] transition-all duration-500 relative group w-fit"
+                          className="block text-lg md:text-xl font-serif font-light text-black/60 transition-all duration-500 relative group w-fit"
                           onClick={() => setIsMenuOpen(false)}
+                          onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                         >
                           {community.name}
-                          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                          <span className="absolute -bottom-1 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                         </Link>
                       ))}
                     </div>
@@ -222,42 +286,50 @@ const Navbar = () => {
 
                 <Link
                   href="/buyers"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black hover:text-[#890100] transition-all duration-500 tracking-[0.05em] relative group w-fit"
+                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ letterSpacing: '0.05em' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                 >
                   Buyers
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
 
                 <Link
                   href="/sellers"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black hover:text-[#890100] transition-all duration-500 tracking-[0.05em] relative group w-fit"
+                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ letterSpacing: '0.05em' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                 >
                   Sellers
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
 
                 <Link
                   href="/blog"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black hover:text-[#890100] transition-all duration-500 tracking-[0.05em] relative group w-fit"
+                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ letterSpacing: '0.05em' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                 >
                   Blog
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black hover:text-[#890100] transition-all duration-500 tracking-[0.05em] relative group w-fit"
+                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ letterSpacing: '0.05em' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                 >
                   Contact
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#890100] transition-all duration-500 group-hover:w-full"></span>
+                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
 
                 {/* Legal Section */}
@@ -266,22 +338,28 @@ const Navbar = () => {
                   <div className="flex flex-wrap gap-x-6 gap-y-3">
                     <Link
                       href="/privacy-policy"
-                      className="text-xs font-serif font-light text-black/60 hover:text-[#890100] transition-colors duration-300 tracking-[0.1em] uppercase"
+                      className="text-xs font-serif font-light text-black/60 transition-colors duration-300 tracking-[0.1em] uppercase"
                       onClick={() => setIsMenuOpen(false)}
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                     >
                       Privacy Policy
                     </Link>
                     <Link
                       href="/accessibility"
-                      className="text-xs font-serif font-light text-black/60 hover:text-[#890100] transition-colors duration-300 tracking-[0.1em] uppercase"
+                      className="text-xs font-serif font-light text-black/60 transition-colors duration-300 tracking-[0.1em] uppercase"
                       onClick={() => setIsMenuOpen(false)}
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                     >
                       Accessibility
                     </Link>
                     <Link
                       href="/terms-and-conditions"
-                      className="text-xs font-serif font-light text-black/60 hover:text-[#890100] transition-colors duration-300 tracking-[0.1em] uppercase"
+                      className="text-xs font-serif font-light text-black/60 transition-colors duration-300 tracking-[0.1em] uppercase"
                       onClick={() => setIsMenuOpen(false)}
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                     >
                       Terms & Conditions
                     </Link>
@@ -290,9 +368,9 @@ const Navbar = () => {
               </div>
 
               {/* Right Side - Contact Information */}
-              <div className="flex flex-col justify-center space-y-12 lg:border-l lg:border-[#890100]/20 lg:pl-16">
+              <div className="flex flex-col justify-center space-y-12 lg:border-l lg:pl-16" style={{ borderColor: `${primaryColor}33` }}>
                 <div>
-                  <h2 className="text-xs uppercase tracking-[0.3em] text-[#890100] mb-8 font-serif font-normal">Get In Touch</h2>
+                  <h2 className="text-xs uppercase tracking-[0.3em] mb-8 font-serif font-normal" style={{ color: primaryColor }}>Get In Touch</h2>
                   
                   <div className="space-y-8">
                     {/* Phone */}
@@ -300,8 +378,10 @@ const Navbar = () => {
                       <div className="text-xs uppercase tracking-[0.2em] text-black/40 mb-3 font-serif">Phone</div>
                       <a 
                         href="tel:2622045534" 
-                        className="text-2xl md:text-3xl font-serif font-normal text-black hover:text-[#890100] transition-colors duration-300 tracking-[0.05em]"
+                        className="text-2xl md:text-3xl font-serif font-normal text-black transition-colors duration-300 tracking-[0.05em]"
                         style={{ letterSpacing: '0.05em' }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                       >
                         262-204-5534
                       </a>
@@ -320,8 +400,20 @@ const Navbar = () => {
                     <div className="pt-4">
                       <Link
                         href="/contact"
-                        className="inline-block border border-[#890100] text-[#890100] hover:bg-[#890100] hover:text-white px-8 py-3 font-serif text-xs tracking-[0.2em] uppercase transition-all duration-500"
+                        className="inline-block border px-8 py-3 font-serif text-xs tracking-[0.2em] uppercase transition-all duration-500"
+                        style={{ 
+                          borderColor: primaryColor,
+                          color: primaryColor,
+                        }}
                         onClick={() => setIsMenuOpen(false)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = primaryColor;
+                          e.currentTarget.style.color = '#fff';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                          e.currentTarget.style.color = primaryColor;
+                        }}
                       >
                         Schedule Consultation
                       </Link>
@@ -337,8 +429,10 @@ const Navbar = () => {
                       href="https://www.facebook.com" 
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-black/60 hover:text-[#890100] transition-colors duration-300"
+                      className="text-black/60 transition-colors duration-300"
                       aria-label="Visit Legendary Real Estate Services on Facebook"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -348,8 +442,10 @@ const Navbar = () => {
                       href="https://www.youtube.com" 
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-black/60 hover:text-[#890100] transition-colors duration-300"
+                      className="text-black/60 transition-colors duration-300"
                       aria-label="Visit Legendary Real Estate Services on YouTube"
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
