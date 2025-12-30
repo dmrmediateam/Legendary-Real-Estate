@@ -6,14 +6,127 @@ import { useState } from 'react';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [isAreasExpanded, setIsAreasExpanded] = useState(false);
 
   const toggleAccordion = (section: string) => {
     setOpenAccordion(openAccordion === section ? null : section);
   };
 
+  // Main areas (without property type qualifiers)
+  const mainAreas = [
+    'Abbey Springs WI',
+    'Burlington WI',
+    'Cedar Point Park WI',
+    'Country Club Estates WI',
+    'Delavan WI',
+    'East Troy WI',
+    'Elkhorn WI',
+    'Fontana WI',
+    'Geneva National WI',
+    'Genoa City WI',
+    'Lake Geneva WI',
+    'Lyons WI',
+    'North Shore Estates WI',
+    'Powers Lake WI',
+    'Powers WI',
+    'Salem WI',
+    'Silver Lake WI',
+    'Twin Lakes WI',
+    'Walworth WI',
+    'Whitewater WI',
+    'Williams Bay WI',
+    'Lake Geneva WI Condos',
+    'Lake Geneva WI Waterfront',
+    'Lake Geneva WI Waterfront Condos',
+  ];
+
+  // Property-specific areas
+  const propertyAreas = [
+    'Waterfront for Sale in Burlington, WI',
+    'Townhomes for Sale in Burlington, WI',
+    'Duplexes for Sale in Burlington, WI',
+    'Condos for Sale in Burlington, WI',
+    'Townhomes for Sale in Elkhorn WI',
+    'Duplexes for Sale in Elkhorn WI',
+    'Waterfront Properties for Sale in Elkhorn WI',
+    'Condos for Sale in Elkhorn WI',
+    'Condos for Sale in Geneva National, WI',
+    'Townhomes for Sale in Geneva National, WI',
+    'Waterfront Properties for Sale in Geneva National, WI',
+    'Duplexes for Sale in Geneva National, WI',
+    'Condos for Sale in Salem, WI',
+    'Waterfront Properties for Sale in Salem, WI',
+    'Duplexes for Sale in Salem, WI',
+    'Townhomes for Sale in Salem, WI',
+    'Homes for Sale in Geneva National, WI',
+    'Townhomes for sale in Walworth, WI',
+    'Duplexes for sale in Walworth, WI',
+    'Waterfront properties for sale in Walworth, WI',
+    'Condos for sale in Walworth, WI',
+    'Homes for sale in Walworth, WI',
+    'Townhomes for Sale in Twin Lakes, WI',
+    'Duplexes for Sale in Twin Lakes, WI',
+    'Waterfront Properties for Sale in Twin Lakes, WI',
+    'Condos for Sale in Twin Lakes, WI',
+    'Homes for Sale in Twin Lakes, WI',
+    'Townhomes for Sale in Genoa City, WI',
+    'Condos for Sale in Genoa City, WI',
+    'Homes for Sale in Genoa City, WI',
+    'Waterfront Properties for Sale in Genoa City, WI',
+    'Duplexes for Sale in Genoa City, WI',
+    'Condos for sale in Williams Bay, WI',
+    'Townhomes for sale in Williams Bay, WI',
+    'Duplexes for sale in Williams Bay, WI',
+    'Waterfront properties for sale in Williams Bay, WI',
+    'Homes for sale in Williams Bay, WI',
+  ];
+
+  // Helper function to generate slug from area name
+  const getAreaSlug = (area: string) => {
+    return area.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
+  };
+
+  const allAreas = [...mainAreas, ...propertyAreas];
+  const initialCount = 12;
+  const displayedAreas = isAreasExpanded ? allAreas : mainAreas.slice(0, initialCount);
+
   return (
     <footer className="bg-black text-white border-t border-[#890100]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Explore Areas Section */}
+        <div className="border-b border-white/10 py-12">
+          <h3 className="text-sm font-serif font-normal text-white/80 mb-8 tracking-[0.15em] uppercase text-center" style={{ letterSpacing: '0.15em' }}>
+            Explore the Areas We Proudly Represent
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mb-6">
+            {displayedAreas.map((area, index) => (
+              <Link
+                key={index}
+                href={`/${getAreaSlug(area)}`}
+                className="text-white/50 hover:text-white/80 transition-colors duration-300 font-serif text-xs tracking-[0.05em] uppercase relative group py-1"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                {area}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-[0.5px] bg-white/20 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            ))}
+          </div>
+          {allAreas.length > initialCount && (
+            <div className="text-center">
+              <button
+                onClick={() => setIsAreasExpanded(!isAreasExpanded)}
+                className="text-white/40 hover:text-white/60 transition-colors duration-300 font-serif text-xs tracking-[0.1em] uppercase relative group"
+                style={{ letterSpacing: '0.1em' }}
+              >
+                {isAreasExpanded ? 'Show Less' : `Show All ${allAreas.length} Areas`}
+                <span className="absolute -bottom-1 left-0 w-0 h-[0.5px] bg-white/20 transition-all duration-300 group-hover:w-full"></span>
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Main Footer Content */}
         <div className="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
           {/* Company Info */}

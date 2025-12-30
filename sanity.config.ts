@@ -5,10 +5,12 @@ import { schemaTypes } from './sanity/schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'Cheryl Towey Real Estate Website Blog',
+  title: 'Legendary Real Estate Services',
 
-  projectId: 'cs56ipyy',
+  projectId: 'asgbwpeo',
   dataset: 'production',
+  
+  apiVersion: '2024-01-01',
 
   plugins: [deskTool(), visionTool()],
 
