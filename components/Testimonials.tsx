@@ -1,139 +1,146 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const testimonials = [
   {
     id: 1,
-    name: 'Chad Donahue',
-    location: 'Lake Geneva, WI',
-    text: 'Working with Jade was a pleasure. She made the buying process easy and fun. Appreciate her patience, prompt responses and a wealth of knowledge.',
-  },
-  {
-    id: 2,
-    name: 'Christi Hunter',
-    location: 'Lake Geneva, WI',
-    text: 'Chris Devincentis is a very seasoned real estate professional. His experience and expertise were invaluable in navigating our way through our most recent purchase. His professionalism and dedication were apparent throughout the process. He is a remarkable guy!',
-  },
-  {
-    id: 3,
     name: 'Jeanette Payne',
-    location: 'Lake Geneva, WI',
-    text: 'Grateful to Jade and the team for their assistance and attention on our recent purchase of property. I don\'t know that we could have done it without their experience and expertise. We are grateful buyers!',
-  },
-  {
-    id: 4,
-    name: 'Rachel DePorter',
-    location: 'Lake Geneva, WI',
     text: 'The realtors from this company were able to quickly get my home on the market and sold fast. I also admired the professionalism of the individuals involved.',
   },
   {
-    id: 5,
-    name: 'Terry Shields Heintz',
-    location: 'Lake Geneva, WI',
+    id: 2,
+    name: 'Rachel DePorter',
     text: 'Chris Devincentis was absolutely wonderful to work with. He was very responsive to answer all our questions. If you are looking for a great Realtor, he is your guy!!',
   },
   {
-    id: 6,
-    name: 'Marsha McClary',
-    location: 'Lake Geneva, WI',
+    id: 3,
+    name: 'Terry Shields Heintz',
     text: 'We had such a fantastic experience buying a home in another state all because of Chris and his team. He has so much expertise about the area, we felt confident that he would make the process a smooth one. And he came through with great results!',
+  },
+  {
+    id: 4,
+    name: 'Marsha McClary',
+    text: 'Agent Chris Devincentis and team were outstanding in a recent transaction. Great communication, responsiveness and enjoyed the time savings of an efficient and automated process.',
+  },
+  {
+    id: 5,
+    name: 'I F',
+    text: 'Working with Jade was a pleasure. She made the buying process easy and fun. Appreciate her patience, prompt responses and a wealth of knowledge.',
+  },
+  {
+    id: 6,
+    name: 'Chad Donahue',
+    text: 'Chris Devincentis is a very seasoned real estate professional. His experience and expertise were invaluable in navigating our way through our most recent purchase. His professionalism and dedication were apparent throughout the process. He is a remarkable guy!',
+  },
+  {
+    id: 7,
+    name: 'Christi Hunter',
+    text: 'Grateful to Jade and the team for their assistance and attention on our recent purchase of property. I don\'t know that we could have done it without their experience and expertise. We are grateful buyers!',
   },
 ];
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleTestimonials, setVisibleTestimonials] = useState<number>(3);
 
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleTestimonials(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleTestimonials(2);
+      } else {
+        setVisibleTestimonials(3);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const getVisibleTestimonials = () => {
+    const visible = [];
+    for (let i = 0; i < visibleTestimonials; i++) {
+      visible.push(testimonials[(currentIndex + i) % testimonials.length]);
+    }
+    return visible;
   };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const current = testimonials[currentIndex];
 
   return (
-    <section className="py-40 bg-white">
-      <div className="max-w-4xl mx-auto px-6 lg:px-12">
-        {/* Minimal Header */}
-        <div className="text-center mb-32">
-          <div className="w-16 h-[0.5px] bg-[#890100] mx-auto mb-16"></div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-normal text-black mb-16 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
-            The Right Agent Helps You Navigate<br />Life's Turning Points
+    <section className="py-32 bg-[#faf9f7]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <div className="w-24 h-px bg-[#890100] mx-auto mb-12"></div>
+          <h2 className="font-['PT_Serif'] text-4xl md:text-5xl lg:text-6xl text-[#1a1a1a] mb-6 leading-tight">
+            The Right Agent Helps You Navigate Life's Turning Points with Clarity and Care.
           </h2>
-          <div className="w-16 h-[0.5px] bg-[#890100] mx-auto"></div>
+          <div className="w-24 h-px bg-[#890100] mx-auto mt-12"></div>
         </div>
 
-        {/* Ultra-Minimal Testimonial Display */}
+        {/* Testimonials Carousel */}
         <div className="relative">
-          {/* Testimonial Content */}
-          <div className="mb-16">
+          <div className={`grid grid-cols-1 ${visibleTestimonials >= 2 ? 'md:grid-cols-2' : ''} ${visibleTestimonials >= 3 ? 'lg:grid-cols-3' : ''} gap-8`}>
             <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.6, ease: 'easeInOut' }}
-              >
-                <blockquote className="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-black leading-[1.4] mb-12" style={{ letterSpacing: '0.02em' }}>
-                  {current.text}
-                </blockquote>
-              </motion.div>
-            </AnimatePresence>
+              {getVisibleTestimonials().map((testimonial, index) => (
+                <motion.div
+                  key={`${testimonial.id}-${currentIndex}-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white p-8 border border-[#890100]/20 hover:border-[#890100] transition-all duration-300"
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 fill-[#890100]"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                      </svg>
+                    ))}
+                  </div>
 
-            {/* Client Info - Minimal */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="flex items-center gap-8"
-              >
-                <div className="w-24 h-[0.5px] bg-black/20"></div>
-                <div>
-                  <h4 className="text-lg font-serif font-normal text-black mb-1 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
-                    {current.name}
-                  </h4>
-                  <p className="text-xs text-black/50 font-serif tracking-[0.15em] uppercase">
-                    {current.location}
+                  {/* Testimonial Text */}
+                  <p className="text-gray-700 mb-6 leading-relaxed">
+                    {testimonial.text}
                   </p>
-                </div>
-              </motion.div>
+
+                  {/* Name */}
+                  <div className="border-t border-[#890100]/20 pt-4">
+                    <p className="font-semibold text-[#1a1a1a]">{testimonial.name}</p>
+                  </div>
+                </motion.div>
+              ))}
             </AnimatePresence>
           </div>
 
-          {/* Minimal Navigation */}
-          <div className="flex items-center justify-between pt-8 border-t border-black/10">
-            <div className="text-xs font-serif text-black/40 tracking-[0.2em] uppercase">
-              {String(currentIndex + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
-            </div>
-            
-            <div className="flex gap-2">
+          {/* Navigation Dots */}
+          <div className="flex justify-center gap-2 mt-12">
+            {testimonials.map((_, index) => (
               <button
-                onClick={prevTestimonial}
-                className="w-10 h-10 flex items-center justify-center text-black/40 hover:text-[#890100] transition-colors duration-300 group"
-                aria-label="Previous testimonial"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </button>
-              <button
-                onClick={nextTestimonial}
-                className="w-10 h-10 flex items-center justify-center text-black/40 hover:text-[#890100] transition-colors duration-300 group"
-                aria-label="Next testimonial"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </button>
-            </div>
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? 'bg-[#890100] w-8' : 'bg-[#890100]/30'
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>

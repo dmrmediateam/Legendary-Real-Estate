@@ -1,3 +1,5 @@
+'use client';
+
 const AboutStats = () => {
   return (
     <section className="py-32 bg-white">

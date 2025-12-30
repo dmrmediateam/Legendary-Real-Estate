@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import CommunityProperties from '@/app/components/CommunityProperties';
+import CommunityProperties from '@/components/CommunityProperties';
 
 export const metadata = {
   title: 'Homes for Sale in Byram, NJ | Cheryl Towey',

@@ -37,6 +37,27 @@ export default function Home() {
 
       {/* Call to Action Section */}
       <CallToAction />
+
+      {/* About with Stats Section */}
+      {/* <AboutStats /> */}
+
+      {/* Meet Agent Section */}
+      {/* <MeetAgent /> */}
+
+      {/* Communities/Locations Section */}
+      {/* <Communities /> */}
+
+      {/* Market Insights Section */}
+      {/* <MarketInsights /> */}
+
+      {/* Testimonials Section */}
+      {/* <Testimonials /> */}
+
+      {/* Contact Section */}
+      {/* <ContactForm /> */}
+
+      {/* Call to Action Section */}
+      {/* <CallToAction /> */}
     </div>
   );
 }
