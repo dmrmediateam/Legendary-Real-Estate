@@ -19,9 +19,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const agent = await getAgentBySlug(params.slug);
+  const { slug } = await params;
+  const agent = await getAgentBySlug(slug);
 
   if (!agent) {
     return {
@@ -38,9 +39,10 @@ export async function generateMetadata({
 export default async function AgentPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const agent = await getAgentBySlug(params.slug);
+  const { slug } = await params;
+  const agent = await getAgentBySlug(slug);
 
   if (!agent) {
     notFound();

@@ -5,8 +5,11 @@ import { notFound } from 'next/navigation';
 export default async function SlugRedirect({
   params,
 }: {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }) {
+  // Await params in Next.js 15
+  const { slug } = await params;
+  
   // Return 404 for any unmatched routes
   notFound();
 }
