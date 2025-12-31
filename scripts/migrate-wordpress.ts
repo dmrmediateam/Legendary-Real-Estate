@@ -170,7 +170,8 @@ function htmlToPortableText(html: string): Array<{ type: 'block' | 'image', data
   // Process all elements in order
   $('body').children().each((_, element) => {
     const $el = $(element);
-    const tagName = element.tagName?.toLowerCase();
+    // Type guard: check if element is an Element (not TextElement)
+    const tagName = (element as any).type === 'tag' ? (element as any).tagName?.toLowerCase() : undefined;
 
     if (tagName === 'p') {
       // Handle paragraphs with potential links and formatting
