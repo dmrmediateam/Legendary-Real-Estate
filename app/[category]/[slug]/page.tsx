@@ -6,18 +6,34 @@ import type { Metadata } from 'next';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
-// Valid categories for blog posts
+// Valid categories for URL structure
 const VALID_CATEGORIES = ['uncategorized', 'guide', 'areas', 'buyer', 'seller', 'news'];
 
-// Generate static params for all blog posts
+// Helper to normalize category from Sanity to URL format
+function normalizeCategoryFromSanity(sanityCategory: string): string {
+  const categoryMap: Record<string, string> = {
+    'market report': 'uncategorized',
+    'market analysis': 'uncategorized',
+    'investment guide': 'guide',
+    'buyer tips': 'buyer',
+    'seller tips': 'seller',
+  };
+  
+  const lower = sanityCategory.toLowerCase();
+  return categoryMap[lower] || lower;
+}
+
+// Generate static params for all blog posts from Sanity
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();
-  return posts
-    .filter((post) => VALID_CATEGORIES.includes(post.category))
-    .map((post) => ({
-      category: post.category,
+  return posts.map((post) => {
+    // Normalize Sanity category to URL category format
+    const urlCategory = normalizeCategoryFromSanity(post.category);
+    return {
+      category: urlCategory || 'uncategorized', // Default to uncategorized if no match
       slug: post.slug.current,
-    }));
+    };
+  });
 }
 
 // Generate metadata for SEO
@@ -31,7 +47,7 @@ export async function generateMetadata({
   // Validate category
   if (!VALID_CATEGORIES.includes(category)) {
     return {
-      title: 'Page Not Found',
+      title: 'Blog Post Not Found',
     };
   }
   
@@ -99,20 +115,7 @@ const portableTextComponents = {
   },
 };
 
-// Helper function to format category name for display
-function formatCategoryName(category: string): string {
-  const categoryMap: Record<string, string> = {
-    uncategorized: 'Uncategorized',
-    guide: 'Guide',
-    areas: 'Areas',
-    buyer: 'Buyer',
-    seller: 'Seller',
-    news: 'News',
-  };
-  return categoryMap[category] || category;
-}
-
-export default async function CategoryBlogPost({ 
+export default async function BlogPost({ 
   params 
 }: { 
   params: Promise<{ category: string; slug: string }> 
@@ -124,6 +127,7 @@ export default async function CategoryBlogPost({
     notFound();
   }
   
+  // Fetch post from Sanity by category and slug
   const post = await getBlogPostByCategoryAndSlug(category, slug);
 
   if (!post) {
@@ -150,7 +154,7 @@ export default async function CategoryBlogPost({
             <div className="max-w-4xl">
               {/* Category Badge */}
               <div className="inline-block bg-gold text-white px-4 py-2 text-xs uppercase tracking-wider mb-6">
-                {formatCategoryName(post.category)}
+                {post.category}
               </div>
 
               {/* Title */}

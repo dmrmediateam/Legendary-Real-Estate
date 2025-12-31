@@ -28,8 +28,9 @@ const nextConfig = {
       permanent: true,
     }));
 
-    // Blog redirects from old WordPress URLs to new /blog/{slug} format
-    const blogRedirects = getBlogRedirects();
+    // Blog redirects from old WordPress URLs and /blog/{slug} to /{category}/{slug} format
+    // TEMPORARILY DISABLED to debug redirect loop
+    // const blogRedirects = getBlogRedirects();
 
     return [
       {
@@ -43,7 +44,7 @@ const nextConfig = {
         permanent: true,
       },
       ...agentRedirects,
-      ...blogRedirects,
+      // ...blogRedirects, // TEMPORARILY DISABLED
     ]
   },
 }

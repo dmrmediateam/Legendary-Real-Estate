@@ -261,9 +261,27 @@ export const sampleBlogPost: BlogPost = {
   }
 };
 
+// Map URL categories to Sanity category values
+function mapUrlCategoryToSanityCategory(urlCategory: string): string[] {
+  const categoryMap: Record<string, string[]> = {
+    'uncategorized': ['Market Report', 'Market Analysis', 'uncategorized'],
+    'guide': ['Investment Guide', 'Guide', 'guide'],
+    'areas': ['Areas', 'areas'],
+    'buyer': ['Buyer Tips', 'Buyer', 'buyer'],
+    'seller': ['Seller Tips', 'Seller', 'seller'],
+    'news': ['News', 'news'],
+  };
+  
+  return categoryMap[urlCategory.toLowerCase()] || [urlCategory];
+}
+
 // Fetch single blog post by category and slug from Sanity
 export async function getBlogPostByCategoryAndSlug(category: string, slug: string): Promise<BlogPost | null> {
-  const query = `*[_type == "post" && category == $category && slug.current == $slug][0]{
+  // Get possible Sanity category values for this URL category
+  const sanityCategories = mapUrlCategoryToSanityCategory(category);
+  
+  // Query by slug first (slugs are unique), then validate category
+  const query = `*[_type == "post" && slug.current == $slug][0]{
     _id,
     _type,
     slug,
@@ -288,7 +306,17 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
   }`
   
   try {
-    return await client.fetch(query, { category, slug })
+    const post = await client.fetch(query, { slug });
+    
+    // Validate that the post's category matches the URL category (case-insensitive)
+    if (post && sanityCategories.some(sc => 
+      post.category?.toLowerCase() === sc.toLowerCase() || 
+      post.category?.toLowerCase() === category.toLowerCase()
+    )) {
+      return post;
+    }
+    
+    return null;
   } catch (error) {
     console.error('Error fetching blog post:', error)
     return null
@@ -350,6 +378,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
       "image": image.asset->url
     },
     readTime,
+    body,
     tags,
     seo
   }`

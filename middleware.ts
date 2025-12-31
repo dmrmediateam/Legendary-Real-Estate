@@ -20,7 +20,13 @@ const knownRoutes = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Valid blog categories that should pass through
+  const validCategories = ['uncategorized', 'guide', 'areas', 'buyer', 'seller', 'news'];
+  const pathSegments = pathname.split('/').filter(Boolean);
+  const firstSegment = pathSegments[0]?.toLowerCase();
+
   // Skip if it's a known route or starts with /api, /_next, or has multiple segments
+  // Also allow category routes (/{category} or /{category}/{slug})
   if (
     knownRoutes.includes(pathname) ||
     pathname.startsWith('/api') ||
@@ -30,7 +36,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/blog/') ||
     pathname.startsWith('/listing/') ||
     pathname.startsWith('/property/') ||
-    pathname.includes('/') && pathname.split('/').filter(Boolean).length > 1
+    validCategories.includes(firstSegment) || // Allow category routes
+    (pathname.includes('/') && pathSegments.length > 1) // Allow any multi-segment routes
   ) {
     return NextResponse.next();
   }

@@ -47,7 +47,7 @@ const MarketInsights = ({ posts }: MarketInsightsProps) => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Link 
-                  href={`/blog/${post.slug.current}`}
+                  href={`/${post.category}/${post.slug.current}`}
                   className="group block bg-white border border-[#890100]/20 hover:border-[#890100] transition-all duration-300 h-full"
                 >
                   <div className="p-8">
