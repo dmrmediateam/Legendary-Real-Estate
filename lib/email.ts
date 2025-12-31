@@ -8,6 +8,7 @@ export interface ContactFormData {
   email: string;
   phone: string;
   message: string;
+  formSource?: string; // 'contact', 'buyers', or 'sellers'
 }
 
 export interface HomeValuationData {

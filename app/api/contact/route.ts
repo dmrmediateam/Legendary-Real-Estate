@@ -34,6 +34,7 @@ export async function POST(request: Request) {
       email: body.email.trim().toLowerCase().substring(0, 100),
       phone: body.phone?.trim().substring(0, 20) || '',
       message: body.message.trim().substring(0, 5000),
+      formSource: body.formSource || 'contact',
     };
 
     // Send email via SendGrid
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
       // Include form source if provided
       const zapierData = {
         ...sanitizedData,
-        formSource: body.formSource || 'contact', // 'contact', 'buyers', or 'sellers'
+        formSource: sanitizedData.formSource || 'contact', // 'contact', 'buyers', or 'sellers'
       };
       
       const zapierResult = await sendContactFormToZapier(zapierData);
