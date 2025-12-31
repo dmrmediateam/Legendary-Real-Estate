@@ -70,20 +70,34 @@ export async function POST(request: Request) {
     }
 
     // ========================================
-    // ZAPIER INTEGRATION (COMMENTED OUT)
-    // Uncomment the following lines to enable Zapier webhook
+    // WEBHOOK INTEGRATION
+    // Send data to webhook if configured
     // ========================================
-    /*
-    try {
-      const zapierResult = await sendHomeValuationToZapier(sanitizedData);
-      if (!zapierResult.success) {
-        console.warn('Zapier webhook failed (non-blocking):', zapierResult.error);
+    const webhookUrl = process.env.HOME_VALUATION_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        const webhookPayload = {
+          formType: 'home-valuation',
+          timestamp: new Date().toISOString(),
+          data: sanitizedData,
+        };
+
+        const webhookResponse = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(webhookPayload),
+        });
+
+        if (!webhookResponse.ok) {
+          console.warn('Webhook failed (non-blocking):', webhookResponse.statusText);
+        }
+      } catch (webhookError) {
+        // Webhook failures are non-blocking - log but don't fail the request
+        console.warn('Webhook error (non-blocking):', webhookError);
       }
-    } catch (zapierError) {
-      // Zapier failures are non-blocking - log but don't fail the request
-      console.warn('Zapier webhook error (non-blocking):', zapierError);
     }
-    */
 
     // Success response
     return NextResponse.json(

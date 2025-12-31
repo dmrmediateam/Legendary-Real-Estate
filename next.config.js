@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const { getBlogRedirects } = require('./lib/blogRedirects');
+
 const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'via.placeholder.com'],
@@ -26,6 +28,9 @@ const nextConfig = {
       permanent: true,
     }));
 
+    // Blog redirects from old WordPress URLs to new /blog/{slug} format
+    const blogRedirects = getBlogRedirects();
+
     return [
       {
         source: '/studio',
@@ -38,6 +43,7 @@ const nextConfig = {
         permanent: true,
       },
       ...agentRedirects,
+      ...blogRedirects,
     ]
   },
 }

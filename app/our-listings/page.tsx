@@ -19,8 +19,8 @@ export default async function OurListingsPage() {
       <section className="section-padding bg-gray-light">
         <div className="container-max text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-black mb-6 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
-            Our Listings
-          </h1>
+          Our Listings
+        </h1>
           <p className="text-lg text-black/70 leading-relaxed font-serif max-w-2xl mx-auto" style={{ letterSpacing: '0.02em' }}>
             Discover exceptional properties in Lake Geneva, WI and the Geneva Lakes area.
           </p>
@@ -124,7 +124,7 @@ export default async function OurListingsPage() {
               })}
             </div>
           )}
-        </div>
+      </div>
       </section>
     </div>
   );

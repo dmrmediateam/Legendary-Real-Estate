@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: defaultMetaTitle,
     description: defaultMetaDescription,
-    keywords: 'real estate, Lake Geneva, Wisconsin, homes for sale, property listings, Legendary Real Estate Services',
+  keywords: 'real estate, Lake Geneva, Wisconsin, homes for sale, property listings, Legendary Real Estate Services',
   }
 }
 

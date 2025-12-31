@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendContactFormEmail, type ContactFormData } from '@/lib/email';
-// import { sendContactFormToZapier } from '@/lib/zapier'; // UNCOMMENT to enable Zapier
+import { sendContactFormToZapier } from '@/lib/zapier';
 
 /**
  * Contact Form API Route
@@ -48,12 +48,17 @@ export async function POST(request: Request) {
     }
 
     // ========================================
-    // ZAPIER INTEGRATION (COMMENTED OUT)
-    // Uncomment the following lines to enable Zapier webhook
+    // ZAPIER INTEGRATION
+    // Send to Zapier webhook (non-blocking)
     // ========================================
-    /*
     try {
-      const zapierResult = await sendContactFormToZapier(sanitizedData);
+      // Include form source if provided
+      const zapierData = {
+        ...sanitizedData,
+        formSource: body.formSource || 'contact', // 'contact', 'buyers', or 'sellers'
+      };
+      
+      const zapierResult = await sendContactFormToZapier(zapierData);
       if (!zapierResult.success) {
         console.warn('Zapier webhook failed (non-blocking):', zapierResult.error);
       }
@@ -61,7 +66,6 @@ export async function POST(request: Request) {
       // Zapier failures are non-blocking - log but don't fail the request
       console.warn('Zapier webhook error (non-blocking):', zapierError);
     }
-    */
 
     // Success response
     return NextResponse.json(

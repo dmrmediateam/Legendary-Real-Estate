@@ -12,11 +12,10 @@ export default async function BlogPage() {
         {/* Header */}
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h1 className="text-4xl sm:text-5xl font-light text-black mb-6">
-            Market Insights & Blog
+            Lake Geneva Real Estate Blog
           </h1>
           <p className="text-lg text-gray-dark leading-relaxed">
-            Expert perspectives and essential resources for navigating New Jersey's real estate market.
-            Stay informed with the latest trends, market analysis, and home buying strategies.
+            Expert perspectives and essential resources for navigating Lake Geneva's real estate market. Stay informed with the latest trends, market analysis, and home buying strategies.
           </p>
         </div>
 

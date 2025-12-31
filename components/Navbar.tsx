@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import type { BrandSettings } from '@/lib/brandSettings';
 import { getLogoUrl } from '@/lib/brandSettings';
@@ -12,19 +12,51 @@ interface NavbarProps {
 
 const Navbar = ({ brandSettings }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCommunitiesOpen, setIsCommunitiesOpen] = useState(false);
-  const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
+  
+  // Timeout refs for dropdown delays
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Get colors from brand settings or use defaults
   const primaryColor = brandSettings?.colors?.primary || '#890100';
   const brandName = brandSettings?.coreIdentity?.brandName || 'Legendary';
   
-  // Get navigation items from brand settings or use defaults
-  const navItems = brandSettings?.header?.navItems || [
-    { label: 'Buyers', linkType: 'internal', href: '/buyers' },
-    { label: 'Sellers', linkType: 'internal', href: '/sellers' },
-    { label: 'About', linkType: 'internal', href: '/about' },
-    { label: 'Contact', linkType: 'internal', href: '/contact' },
+  // Navigation structure
+  const navItems = [
+    {
+      label: 'Search',
+      linkType: 'dropdown' as const,
+      href: '/listings',
+      children: [
+        { label: 'Our Listings', href: '/our-listings' },
+      ],
+    },
+    {
+      label: "What's My Home Worth?",
+      linkType: 'internal' as const,
+      href: '/seller-value/',
+    },
+    {
+      label: 'About Us',
+      linkType: 'dropdown' as const,
+      href: '/about',
+      children: [
+        { label: 'Agent Roster', href: '/agents' },
+        { label: 'Lake Geneva Real Estate Blog', href: '/blog' },
+        { label: 'Buyers', href: '/buying-a-house-wisconsin/' },
+        { label: 'Sellers', href: '/selling-a-house-in-wisconsin/' },
+        { label: 'How We Give Back', href: '/how-we-give-back/' },
+      ],
+    },
+    {
+      label: 'Contact Us',
+      linkType: 'internal' as const,
+      href: '/contact',
+    },
   ];
 
   // Get CTA button from brand settings
@@ -33,16 +65,6 @@ const Navbar = ({ brandSettings }: NavbarProps) => {
   // Get logo
   const primaryLogo = brandSettings?.logos?.primaryLogo;
   const logoUrl = primaryLogo ? getLogoUrl(primaryLogo) : null;
-
-  // Communities - could be extracted from navItems dropdown, but keeping hardcoded for now
-  const communities = [
-    { name: 'Lake Geneva', href: '/communities/lake-geneva' },
-    { name: 'Fontana', href: '/communities/fontana' },
-    { name: 'Salem', href: '/communities/salem' },
-    { name: 'Burlington', href: '/communities/burlington' },
-    { name: 'Elkhorn', href: '/communities/elkhorn' },
-    { name: 'Delavan', href: '/communities/delavan' },
-  ];
 
   return (
     <nav className="bg-white/95 backdrop-blur-sm sticky top-0 z-[9999]" style={{ borderBottomColor: `${primaryColor}20` }}>
@@ -60,60 +82,100 @@ const Navbar = ({ brandSettings }: NavbarProps) => {
               />
             ) : (
               <>
-                <div className="relative">
-                  <span className="text-xl lg:text-2xl font-serif font-normal text-black tracking-[0.1em] uppercase">
+            <div className="relative">
+              <span className="text-xl lg:text-2xl font-serif font-normal text-black tracking-[0.1em] uppercase">
                     {brandName}
-                  </span>
+              </span>
                   <div className="absolute -bottom-1 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></div>
-                </div>
+            </div>
                 <span className="mx-2 font-serif text-xl" style={{ color: primaryColor }}>•</span>
-                <span className="text-xs lg:text-sm font-serif font-light text-black/60 tracking-[0.2em] uppercase hidden sm:inline">
-                  Real Estate
-                </span>
+            <span className="text-xs lg:text-sm font-serif font-light text-black/60 tracking-[0.2em] uppercase hidden sm:inline">
+              Real Estate
+            </span>
               </>
             )}
           </Link>
 
           {/* Right Side - Desktop Nav + Menu Button */}
           <div className="flex items-center gap-6 lg:gap-12">
-            {/* Desktop Navigation - From brand settings */}
+            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
               {navItems.map((item) => {
                 if (item.linkType === 'dropdown' && item.children) {
+                  const isOpen = item.label === 'Search' ? isSearchOpen : isAboutOpen;
+                  const setIsOpen = item.label === 'Search' ? setIsSearchOpen : setIsAboutOpen;
+                  
                   return (
-                    <div key={item.label} className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setIsCommunitiesOpen(!isCommunitiesOpen)}
+                    <div 
+                      key={item.label} 
+                      className="relative"
+                      onMouseEnter={() => {
+                        // Clear any pending timeout
+                        const timeoutRef = item.label === 'Search' ? searchTimeoutRef : aboutTimeoutRef;
+                        if (timeoutRef.current) {
+                          clearTimeout(timeoutRef.current);
+                          timeoutRef.current = null;
+                        }
+                        setIsOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        // Add delay before closing
+                        const timeoutRef = item.label === 'Search' ? searchTimeoutRef : aboutTimeoutRef;
+                        timeoutRef.current = setTimeout(() => {
+                          setIsOpen(false);
+                          timeoutRef.current = null;
+                        }, 500); // 500ms delay
+                      }}
+                    >
+              <Link
+                        href={item.href || '#'}
                         className="text-black/70 font-serif text-xs tracking-[0.15em] uppercase transition-colors duration-300 flex items-center gap-2 relative group"
-                        style={{ fontWeight: 300, letterSpacing: '0.15em', color: isCommunitiesOpen ? primaryColor : undefined }}
+                        style={{ fontWeight: 300, letterSpacing: '0.15em', color: isOpen ? primaryColor : undefined }}
                         onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
                         onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.7)'}
                       >
                         {item.label}
-                        <svg className={`w-3 h-3 transition-transform duration-300 ${isCommunitiesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <svg className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
                         <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                      </button>
-                      {isCommunitiesOpen && (
-                        <div className="absolute right-0 mt-4 w-56 bg-white border border-black/10 shadow-2xl p-4 z-[10000]">
-                          <div className="space-y-1">
+                      </Link>
+                      {isOpen && (
+                        <div 
+                          className="absolute left-0 mt-2 w-64 bg-white border border-black/10 shadow-2xl p-4 z-[10000]"
+                          onMouseEnter={() => {
+                            // Clear any pending timeout when hovering over dropdown
+                            const timeoutRef = item.label === 'Search' ? searchTimeoutRef : aboutTimeoutRef;
+                            if (timeoutRef.current) {
+                              clearTimeout(timeoutRef.current);
+                              timeoutRef.current = null;
+                            }
+                            setIsOpen(true);
+                          }}
+                          onMouseLeave={() => {
+                            // Add delay before closing
+                            const timeoutRef = item.label === 'Search' ? searchTimeoutRef : aboutTimeoutRef;
+                            timeoutRef.current = setTimeout(() => {
+                              setIsOpen(false);
+                              timeoutRef.current = null;
+                            }, 500); // 500ms delay
+                          }}
+                        >
+                    <div className="space-y-1">
                             {item.children.map((child) => (
-                              <Link
+                        <Link
                                 key={child.label}
                                 href={child.href || '#'}
-                                className="block px-3 py-2 text-xs text-black/60 hover:bg-black/5 transition-all duration-300 font-serif tracking-[0.1em] uppercase"
-                                style={{ color: primaryColor }}
-                                onClick={() => setIsCommunitiesOpen(false)}
-                              >
+                                className="block px-3 py-2 text-xs text-black/60 hover:text-black hover:bg-black/5 transition-all duration-300 font-serif tracking-[0.1em] uppercase"
+                                onClick={() => setIsOpen(false)}
+                        >
                                 {child.label}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                        </Link>
+                      ))}
                     </div>
+                  </div>
+                )}
+              </div>
                   );
                 }
                 return (
@@ -247,90 +309,75 @@ const Navbar = ({ brandSettings }: NavbarProps) => {
                   <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
 
-                {/* Communities Section (collapsible) */}
-                <div className="space-y-4">
+                {/* Navigation Items */}
+                {navItems.map((item) => {
+                  if (item.linkType === 'dropdown' && item.children) {
+                    const isOpen = item.label === 'Search' ? isMobileSearchOpen : isMobileAboutOpen;
+                    const setIsOpen = item.label === 'Search' ? setIsMobileSearchOpen : setIsMobileAboutOpen;
+                    
+                    return (
+                      <div key={item.label} className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Link
+                            href={item.href || '#'}
+                            className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
+                            onClick={() => setIsMenuOpen(false)}
+                            style={{ letterSpacing: '0.05em' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                            onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
+                          >
+                            {item.label}
+                            <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                          </Link>
                   <button
                     type="button"
-                    className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] flex items-center gap-3 relative group w-fit"
-                    onClick={() => setIsMobileCommunitiesOpen(!isMobileCommunitiesOpen)}
-                    aria-expanded={isMobileCommunitiesOpen}
-                    aria-controls="mobile-communities"
-                    style={{ letterSpacing: '0.05em', color: isMobileCommunitiesOpen ? primaryColor : undefined }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
-                    onMouseLeave={(e) => e.currentTarget.style.color = isMobileCommunitiesOpen ? primaryColor : '#000'}
-                  >
-                    Communities
-                    <svg className={`w-5 h-5 transition-transform duration-500 ${isMobileCommunitiesOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                            className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] flex items-center gap-3 relative group"
+                            onClick={() => setIsOpen(!isOpen)}
+                            aria-expanded={isOpen}
+                            style={{ letterSpacing: '0.05em', color: isOpen ? primaryColor : undefined }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                            onMouseLeave={(e) => e.currentTarget.style.color = isOpen ? primaryColor : '#000'}
+                          >
+                            <svg className={`w-5 h-5 transition-transform duration-500 ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
-                    <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                   </button>
-                  {isMobileCommunitiesOpen && (
-                    <div id="mobile-communities" className="pl-6 space-y-3 border-l" style={{ borderColor: `${primaryColor}33` }}>
-                      {communities.map((community) => (
+                        </div>
+                        {isOpen && (
+                          <div className="pl-6 space-y-3 border-l" style={{ borderColor: `${primaryColor}33` }}>
+                            {item.children.map((child) => (
                         <Link
-                          key={community.name}
-                          href={community.href}
-                          className="block text-lg md:text-xl font-serif font-light text-black/60 transition-all duration-500 relative group w-fit"
+                                key={child.label}
+                                href={child.href || '#'}
+                                className="block text-lg md:text-xl font-serif font-light text-black/60 transition-all duration-500 relative group w-fit"
                           onClick={() => setIsMenuOpen(false)}
-                          onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
-                          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
+                                onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(0, 0, 0, 0.6)'}
                         >
-                          {community.name}
-                          <span className="absolute -bottom-1 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                                {child.label}
+                                <span className="absolute -bottom-1 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                         </Link>
                       ))}
                     </div>
                   )}
                 </div>
-
+                    );
+                  }
+                  return (
                 <Link
-                  href="/buyers"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
+                      key={item.label}
+                      href={item.href || '#'}
+                      className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ letterSpacing: '0.05em' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
+                      onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
                 >
-                  Buyers
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
+                      {item.label}
+                      <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
                 </Link>
-
-                <Link
-                  href="/sellers"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
-                  onClick={() => setIsMenuOpen(false)}
-                  style={{ letterSpacing: '0.05em' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
-                >
-                  Sellers
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                </Link>
-
-                <Link
-                  href="/blog"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
-                  onClick={() => setIsMenuOpen(false)}
-                  style={{ letterSpacing: '0.05em' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
-                >
-                  Blog
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                </Link>
-
-                <Link
-                  href="/contact"
-                  className="text-3xl md:text-4xl font-serif font-normal text-black transition-all duration-500 tracking-[0.05em] relative group w-fit"
-                  onClick={() => setIsMenuOpen(false)}
-                  style={{ letterSpacing: '0.05em' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#000'}
-                >
-                  Contact
-                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] transition-all duration-500 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                </Link>
+                  );
+                })}
 
                 {/* Legal Section */}
                 <div className="pt-8 pb-8 border-t border-black/10 mt-8">

@@ -34,7 +34,10 @@ const ContactForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          formSource: 'contact',
+        }),
       });
 
       const data = await response.json();

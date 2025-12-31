@@ -57,3 +57,4 @@ export default function FAQAccordion({ faqs }: FAQAccordionProps) {
   );
 }
 
+

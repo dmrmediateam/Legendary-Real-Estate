@@ -7,8 +7,14 @@ import MarketInsights from '@/components/MarketInsights';
 import Testimonials from '@/components/Testimonials';
 import ContactForm from '@/components/ContactForm';
 import CallToAction from '@/components/CallToAction';
+import { getAllBlogPosts } from '@/data/blogPosts';
 
-export default function Home() {
+export const revalidate = 60; // Revalidate every 60 seconds
+
+export default async function Home() {
+  // Fetch blog posts for Market Insights section
+  const blogPosts = await getAllBlogPosts();
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -27,7 +33,7 @@ export default function Home() {
       <Communities />
 
       {/* Market Insights Section */}
-      <MarketInsights />
+      <MarketInsights posts={blogPosts} />
 
       {/* Testimonials Section */}
       <Testimonials />

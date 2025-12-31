@@ -1,215 +1,192 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'About Cheryl Towey | Expert New Jersey Real Estate Agent',
-  description: 'Meet Cheryl Towey, your trusted Weichert Realtors agent specializing in Sussex and Warren County real estate. Years of experience helping clients find their dream homes.',
+export const metadata: Metadata = {
+  title: 'About Us - Legendary Real Estate Services',
+  description: 'Boutique by Design. Legendary by Result. Real estate isn\'t about closing deals — it\'s about opening new chapters. We guide people through life\'s most meaningful transitions with precision, discretion, and clarity.',
 };
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="section-padding bg-gray-light">
-        <div className="container-max text-center">
-          <h1 className="scroll-animate text-3xl sm:text-4xl font-serif font-light text-black mb-6 heading-underline pb-4">
-            About Cheryl Towey
+      <section className="py-20 bg-white border-b border-black/10">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <div className="w-16 h-px bg-[#890100] mx-auto mb-8"></div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-black mb-6 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+            About Us
           </h1>
-          <p className="scroll-animate text-base text-gray-dark max-w-3xl mx-auto leading-relaxed">
-            Your trusted partner in New Jersey real estate, dedicated to making your home buying and selling experience seamless, successful, and stress-free.
+          <p className="text-lg sm:text-xl text-black/70 font-serif max-w-3xl mx-auto leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+            Real estate isn't about closing deals — it's about opening new chapters.
           </p>
+          <div className="w-16 h-px bg-[#890100] mx-auto mt-8"></div>
         </div>
       </section>
 
-      {/* Agent Bio Section */}
-      <section className="section-padding bg-white">
-        <div className="container-max">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
-            {/* Agent Image */}
-            <div className="scroll-animate">
-              <img 
-                src="/images/cheryl-towey.jpg" 
-                alt="Cheryl Towey - New Jersey Real Estate Agent" 
-                className="w-full rounded-sm shadow-lg"
-              />
-            </div>
-
-            {/* Agent Info */}
-            <div>
-              <h2 className="scroll-animate text-2xl font-serif font-light text-black mb-4">
-                Cheryl Towey
-              </h2>
-              <p className="scroll-animate text-base text-gold mb-6 font-serif">
-                Licensed Real Estate Salesperson | Weichert Realtors
-              </p>
-              <div className="space-y-4 text-gray-dark leading-relaxed text-sm">
-                <p className="scroll-animate">
-                  With a deep passion for real estate and an unwavering commitment to client satisfaction, Cheryl Towey has established herself as a trusted advisor in the New Jersey real estate market. Specializing in Sussex County, Warren County, and surrounding communities, Cheryl brings extensive local knowledge and market expertise to every transaction.
-                </p>
-                <p className="scroll-animate">
-                  Cheryl's approach to real estate is built on a foundation of integrity, professionalism, and personalized service. Whether you're a first-time homebuyer, seasoned investor, or looking to sell your property, Cheryl provides expert guidance through every step of the process. Her intimate knowledge of communities like Hackettstown, Andover, Byram, Blairstown, Chester, and Washington allows her to match clients with properties that truly fit their lifestyle and goals.
-                </p>
-                <p className="scroll-animate">
-                  As a Weichert Realtors agent, Cheryl leverages cutting-edge technology, comprehensive marketing strategies, and a vast professional network to deliver exceptional results. Her dedication to understanding each client's unique needs, combined with her negotiation skills and attention to detail, ensures a smooth and successful real estate experience from start to finish.
-                </p>
-                <p className="scroll-animate">
-                  Beyond real estate, Cheryl is deeply committed to the communities she serves, staying actively involved in local events and maintaining strong relationships throughout Northern New Jersey.
-                </p>
-              </div>
-
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Link href="/contact" className="btn-primary text-xs">
-                  Get In Touch
-                </Link>
-                <a href="tel:9083340971" className="btn-secondary text-xs">
-                  Call 908.334.0971
-                </a>
-              </div>
-            </div>
+      {/* YouTube Video Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-6 lg:px-12">
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src="https://www.youtube.com/embed/YN_mKP4b3WA"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute top-0 left-0 w-full h-full border border-black/10"
+              title="Legendary Real Estate Services - About Us"
+            />
           </div>
         </div>
       </section>
 
-      {/* Experience Stats */}
-      <section className="section-padding bg-gray-light">
-        <div className="container-max">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto">
-            <div className="scroll-animate text-center">
-              <div className="text-4xl font-serif font-light text-secondary mb-2">Extensive</div>
-              <div className="text-xs uppercase tracking-widest text-gray-dark font-light">
-                LOCAL MARKET KNOWLEDGE
-              </div>
-            </div>
-            <div className="scroll-animate text-center">
-              <div className="text-4xl font-serif font-light text-secondary mb-2">Years</div>
-              <div className="text-xs uppercase tracking-widest text-gray-dark font-light">
-                OF EXPERIENCE
-              </div>
-            </div>
-            <div className="scroll-animate text-center">
-              <div className="text-4xl font-serif font-light text-secondary mb-2">Dedicated</div>
-              <div className="text-xs uppercase tracking-widest text-gray-dark font-light">
-                CLIENT SERVICE
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Service Areas */}
-      <section className="section-padding bg-white">
-        <div className="container-max">
+      {/* Opening Statement */}
+      <section className="py-20 bg-white border-b border-black/10">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-12">
-            <h2 className="scroll-animate text-3xl sm:text-4xl font-serif font-light text-black mb-4">
-              Service Areas
-            </h2>
-            <p className="scroll-animate text-base text-gray-dark max-w-3xl mx-auto">
-              Proudly serving Northern New Jersey communities with expertise and dedication
+            <p className="text-xl sm:text-2xl font-serif font-normal text-black leading-relaxed mb-6" style={{ letterSpacing: '0.02em' }}>
+              We guide people through some of life's most meaningful transitions with precision, discretion, and clarity. Our clients don't just feel helped. They feel seen, heard, and fiercely protected.
+            </p>
+            <p className="text-lg text-black/70 font-serif leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+              All while getting the best price, having the smoothest transaction, and in the least amount of time.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {[
-              { name: 'Sussex County', href: '/communities/sussex-county' },
-              { name: 'Warren County', href: '/communities/warren-county' },
-              { name: 'Hackettstown', href: '/communities/hackettstown' },
-              { name: 'Andover', href: '/communities/andover' },
-              { name: 'Byram', href: '/communities/byram' },
-              { name: 'Blairstown', href: '/communities/blairstown' },
-              { name: 'Chester', href: '/communities/chester' },
-              { name: 'Washington', href: '/communities/washington' },
-            ].map((area) => (
-              <Link
-                key={area.name}
-                href={area.href}
-                className="scroll-animate text-center p-6 bg-gray-light rounded-sm hover:bg-gold hover:text-white transition-all duration-300 group"
-              >
-                <div className="text-base font-serif font-light text-black group-hover:text-white">
-                  {area.name}
-                </div>
-              </Link>
-            ))}
+      {/* WHO WE ARE */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12">
+          <div className="mb-12">
+            <div className="w-16 h-px bg-[#890100] mb-6"></div>
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-black mb-6 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              Who We Are
+            </h2>
+            <p className="text-2xl sm:text-3xl font-serif font-normal text-[#890100] mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              Boutique by Design. Legendary by Result.
+            </p>
+          </div>
+          
+          <div className="space-y-6 text-black/80 font-serif leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+            <p className="text-lg">
+              We intentionally stay lean — Our size is our strength. We insist on excellence without compromise. Nor do we shy away from complex negotiations, emotional crossroads, or tangled financing.
+            </p>
+            <p className="text-lg">
+              We lead with calm assertiveness, guiding our clients through what may be one of the biggest financial — and personal — decisions of their lives.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Professional Affiliations */}
-      <section className="section-padding bg-gray-light">
-        <div className="container-max">
-          <div className="text-center mb-12">
-            <h2 className="scroll-animate text-3xl sm:text-4xl font-serif font-light text-black mb-4">
-              Professional Affiliations
+      {/* WHAT WE DO */}
+      <section className="py-20 bg-black text-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12">
+          <div className="mb-12">
+            <div className="w-16 h-px bg-[#890100] mb-6"></div>
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal mb-6 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              What We Do
             </h2>
-            <p className="scroll-animate text-base text-gray-dark max-w-3xl mx-auto">
-              Backed by industry-leading resources and professional excellence
+            <p className="text-2xl sm:text-3xl font-serif font-normal text-[#890100] mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              We Don't Sell Homes. We Secure Legacies.
             </p>
           </div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="scroll-animate bg-white p-12 rounded-sm text-center">
-              <img 
-                src="https://www.realestatebycherylnj.com/logos/weichert-logo.svg" 
-                alt="Weichert Realtors" 
-                className="h-16 mx-auto mb-8"
-              />
-              <h3 className="text-xl font-serif font-light text-black mb-4">
-                Weichert Realtors
-              </h3>
-              <p className="text-sm text-gray-dark leading-relaxed max-w-2xl mx-auto">
-                As a proud member of Weichert Realtors, one of the nation's leading real estate companies, Cheryl has access to cutting-edge technology, comprehensive marketing tools, and a vast network of industry professionals to better serve her clients.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              <div className="scroll-animate bg-white p-8 rounded-sm text-center">
-                <div className="text-gold text-3xl mb-3">
-                  <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                  </svg>
-                </div>
-                <h4 className="text-base font-serif font-light text-black mb-2">
-                  New Jersey Realtors®
-                </h4>
-                <p className="text-xs text-gray-dark">
-                  Member in good standing
-                </p>
-              </div>
-
-              <div className="scroll-animate bg-white p-8 rounded-sm text-center">
-                <div className="text-gold text-3xl mb-3">
-                  <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h4 className="text-base font-serif font-light text-black mb-2">
-                  Licensed Professional
-                </h4>
-                <p className="text-xs text-gray-dark">
-                  New Jersey Real Estate License
-                </p>
-              </div>
-            </div>
+          
+          <div className="space-y-6 text-white/90 font-serif leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+            <p className="text-lg">
+              To us, every transaction is a turning point — an inheritance passed on, a fresh start, a life reimagined. We choreograph those moments with care, strategy, and soul. Because homes aren't just assets. They're anchors, fresh starts, and final chapters — and we treat them that way.
+            </p>
+            <p className="text-lg">
+              We don't push properties, we position them. We're not in the "showing houses" business; we're in the equity protection and wealth-building business.
+            </p>
           </div>
+        </div>
+      </section>
+
+      {/* HOW WE OPERATE */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12">
+          <div className="mb-12">
+            <div className="w-16 h-px bg-[#890100] mb-6"></div>
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-black mb-6 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              How We Operate
+            </h2>
+            <p className="text-2xl sm:text-3xl font-serif font-normal text-[#890100] mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              Radical Transparency. Relentless Advocacy. White-Glove Without White Noise.
+            </p>
+          </div>
+          
+          <div className="space-y-6 text-black/80 font-serif leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+            <p className="text-lg">
+              We're not afraid of hard conversations — we lead them. Meaning we don't tell clients what they want to hear. We tell them what they need to know — with honesty, empathy, and fierce loyalty. Because prestige isn't polite silence — it's courage with class.
+            </p>
+            <p className="text-lg">
+              We deliver concierge-level service that's high-touch, streamlined, and purposeful. Everything you need, nothing you don't. That's how we earn trust — and keep it.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* WHERE AND WHY WE SERVE */}
+      <section className="py-20 bg-black text-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12">
+          <div className="mb-12">
+            <div className="w-16 h-px bg-[#890100] mb-6"></div>
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal mb-6 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              Where and Why We Serve
+            </h2>
+            <p className="text-2xl sm:text-3xl font-serif font-normal text-[#890100] mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+              Rooted in Lake Life. Not Just Lake Listings.
+            </p>
+          </div>
+          
+          <div className="space-y-6 text-white/90 font-serif leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+            <p className="text-lg">
+              We don't just market Lake Geneva — we live it, breathe it, and protect it. This is our home, our history, and our legacy too. From neighborhood revitalization to civic leadership, we're not just selling a lifestyle — we're helping preserve what makes living in Lake Geneva so extraordinary.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Closing Statement */}
+      <section className="py-20 bg-white border-t border-black/10">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <div className="w-16 h-px bg-[#890100] mx-auto mb-8"></div>
+          <p className="text-2xl sm:text-3xl font-serif font-normal text-black mb-6 leading-relaxed" style={{ letterSpacing: '0.05em' }}>
+            This is Real Estate, Reimagined.
+          </p>
+          <p className="text-xl text-black/70 font-serif mb-8 leading-relaxed" style={{ letterSpacing: '0.02em' }}>
+            Not louder. Not flashier. Just smarter, sharper, and more deeply human.
+          </p>
+          <p className="text-2xl sm:text-3xl font-serif font-normal text-[#890100] mb-12 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
+            Let's make your next move… Legendary.
+          </p>
+          <div className="w-16 h-px bg-[#890100] mx-auto"></div>
         </div>
       </section>
 
       {/* Call to Action */}
-      <section className="section-padding bg-white">
-        <div className="container-max">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="scroll-animate text-3xl sm:text-4xl font-serif font-light text-black mb-6">
-              Ready to Start Your Real Estate Journey?
-            </h2>
-            <p className="scroll-animate text-base text-gray-dark mb-8 leading-relaxed">
-              Whether you're buying your first home, upgrading to your dream property, or selling your current residence, Cheryl is here to guide you every step of the way.
-            </p>
-            <div className="scroll-animate flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-primary text-xs">
-                Schedule a Consultation
-              </Link>
-              <Link href="/listings" className="btn-secondary text-xs">
-                View Available Properties
-              </Link>
-            </div>
+      <section className="py-20 bg-white border-t border-black/10">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="border border-[#890100] text-[#890100] hover:bg-[#890100] hover:text-white px-8 py-3 font-serif text-xs tracking-[0.2em] uppercase transition-all duration-300"
+              style={{ letterSpacing: '0.2em' }}
+            >
+              Get In Touch
+            </Link>
+            <Link
+              href="/seller-value"
+              className="border border-black text-black hover:bg-black hover:text-white px-8 py-3 font-serif text-xs tracking-[0.2em] uppercase transition-all duration-300"
+              style={{ letterSpacing: '0.2em' }}
+            >
+              What's My Home Worth?
+            </Link>
+            <Link
+              href="/our-listings"
+              className="border border-black text-black hover:bg-black hover:text-white px-8 py-3 font-serif text-xs tracking-[0.2em] uppercase transition-all duration-300"
+              style={{ letterSpacing: '0.2em' }}
+            >
+              View Listings
+            </Link>
           </div>
         </div>
       </section>

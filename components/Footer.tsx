@@ -171,10 +171,10 @@ const Footer = ({ brandSettings }: FooterProps) => {
                 />
               ) : (
                 <>
-                  <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
                     <span className="text-xl font-serif font-normal text-white tracking-[0.1em] uppercase">{brandName.split(' ')[0]}</span>
                     <span className="font-serif text-xl" style={{ color: primaryColor }}>•</span>
-                  </div>
+              </div>
                   <div className="w-0 h-px transition-all duration-500 group-hover:w-full mt-2" style={{ backgroundColor: primaryColor }}></div>
                 </>
               )}
@@ -196,7 +196,7 @@ const Footer = ({ brandSettings }: FooterProps) => {
                 <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>
                   {column.title}
                 </h4>
-                <ul className="space-y-4">
+            <ul className="space-y-4">
                   {column.links?.map((link, linkIndex) => (
                     <li key={linkIndex}>
                       <Link 
@@ -207,65 +207,65 @@ const Footer = ({ brandSettings }: FooterProps) => {
                       >
                         {link.label}
                         <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                      </Link>
-                    </li>
+                </Link>
+              </li>
                   ))}
-                </ul>
-              </div>
+            </ul>
+          </div>
             ))
           ) : (
             <>
               {/* Default Navigate Column */}
-              <div>
+          <div>
                 <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>Navigate</h4>
-                <ul className="space-y-4">
-                  <li>
+            <ul className="space-y-4">
+              <li>
                     <Link href="/" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
                       onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
                     >
                       Home
                       <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                    </Link>
-                  </li>
-                  <li>
+                </Link>
+              </li>
+              <li>
                     <Link href="/about" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
                       onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
                     >
                       About
                       <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                    </Link>
-                  </li>
-                  <li>
+                </Link>
+              </li>
+              <li>
                     <Link href="/listings" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
                       onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
                     >
                       Properties
                       <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                    </Link>
-                  </li>
-                  <li>
+                </Link>
+              </li>
+              <li>
                     <Link href="/contact" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
                       onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
                     >
                       Contact
                       <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                    </Link>
-                  </li>
-                  <li>
+                </Link>
+              </li>
+              <li>
                     <Link href="/blog" className="text-white/60 transition-colors duration-300 text-xs font-serif tracking-[0.1em] uppercase relative group"
                       onMouseEnter={(e) => e.currentTarget.style.color = primaryColor}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
                     >
                       Blog
                       <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: primaryColor }}></span>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+                </Link>
+              </li>
+            </ul>
+          </div>
             </>
           )}
 
@@ -274,8 +274,8 @@ const Footer = ({ brandSettings }: FooterProps) => {
             <h4 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-8" style={{ color: primaryColor }}>Contact</h4>
             <div className="space-y-6 text-xs text-white/60 font-serif mb-8">
               {footerPhone && (
-                <div>
-                  <span className="text-white/40 uppercase tracking-[0.2em] text-[10px] block mb-2">Phone</span>
+              <div>
+                <span className="text-white/40 uppercase tracking-[0.2em] text-[10px] block mb-2">Phone</span>
                   <a 
                     href={`tel:${footerPhone.replace(/\D/g, '')}`} 
                     className="text-white/80 transition-colors duration-300"
@@ -296,8 +296,8 @@ const Footer = ({ brandSettings }: FooterProps) => {
                     onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)'}
                   >
                     {footerEmail}
-                  </a>
-                </div>
+                </a>
+              </div>
               )}
               {footerBusinessHours && (
                 <div>
@@ -307,23 +307,23 @@ const Footer = ({ brandSettings }: FooterProps) => {
               )}
             </div>
             {socialLinks.length > 0 && (
-              <div>
+            <div>
                 <h5 className="text-xs font-serif font-normal uppercase tracking-[0.2em] mb-4" style={{ color: primaryColor }}>Follow</h5>
-                <div className="flex space-x-4">
+              <div className="flex space-x-4">
                   {socialLinks.map((social, index) => {
                     const getIcon = (platform: string) => {
                       switch (platform?.toLowerCase()) {
                         case 'facebook':
                           return (
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
                           );
                         case 'youtube':
                           return (
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                            </svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
                           );
                         case 'instagram':
                           return (
@@ -517,7 +517,7 @@ const Footer = ({ brandSettings }: FooterProps) => {
                   onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.5)'}
                 >
                   {link.label}
-                </Link>
+              </Link>
               ))}
               <a 
                 href="https://dmrmedia.org" 
