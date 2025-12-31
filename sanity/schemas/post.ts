@@ -55,10 +55,10 @@ export default defineType({
           name: 'alt',
           type: 'string',
           title: 'Alternative Text',
-          // Made optional to support WordPress migration
+          validation: (Rule) => Rule.required(),
         },
       ],
-      // Made optional to support WordPress migration
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'author',

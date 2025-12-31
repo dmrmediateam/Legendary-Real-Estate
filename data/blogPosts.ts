@@ -261,7 +261,41 @@ export const sampleBlogPost: BlogPost = {
   }
 };
 
-// Fetch single blog post by slug from Sanity
+// Fetch single blog post by category and slug from Sanity
+export async function getBlogPostByCategoryAndSlug(category: string, slug: string): Promise<BlogPost | null> {
+  const query = `*[_type == "post" && category == $category && slug.current == $slug][0]{
+    _id,
+    _type,
+    slug,
+    title,
+    category,
+    description,
+    "mainImage": {
+      "asset": {
+        "url": mainImage.asset->url
+      },
+      "alt": mainImage.alt
+    },
+    publishedAt,
+    "author": author->{
+      name,
+      "image": image.asset->url
+    },
+    readTime,
+    body,
+    tags,
+    seo
+  }`
+  
+  try {
+    return await client.fetch(query, { category, slug })
+  } catch (error) {
+    console.error('Error fetching blog post:', error)
+    return null
+  }
+}
+
+// Fetch single blog post by slug from Sanity (backward compatibility)
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   const query = `*[_type == "post" && slug.current == $slug][0]{
     _id,

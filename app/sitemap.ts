@@ -1,17 +1,29 @@
 import { MetadataRoute } from 'next';
+import { getAllBlogPosts } from '@/data/blogPosts';
 
 /**
- * Dynamic Sitemap Generation for Cheryl Towey Real Estate Website
+ * Dynamic Sitemap Generation for Legendary Real Estate Services
  * This file automatically generates a sitemap.xml at /sitemap.xml
  * 
  * Next.js will automatically serve this at: https://yourdomain.com/sitemap.xml
  */
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://realestatebycherylnj.com';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://legendaryrealestateservices.com';
   
   // Current date for lastModified
   const currentDate = new Date();
+  
+  // Fetch blog posts from Sanity
+  const blogPosts = await getAllBlogPosts();
+  
+  // Generate blog post URLs
+  const blogPostUrls = blogPosts.map((post) => ({
+    url: `${baseUrl}/${post.category}/${post.slug.current}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }));
   
   return [
     // Homepage
@@ -138,8 +150,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     
-    // Note: Blog post URLs (/blog/[slug]) should be added dynamically
-    // by fetching from Sanity CMS. Add them here when blog is active.
+    // Blog post URLs
+    ...blogPostUrls,
   ];
 }
 

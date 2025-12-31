@@ -31,7 +31,7 @@ export default async function BlogPage() {
             return (
               <Link
                 key={post._id}
-                href={`/blog/${post.slug.current}`}
+                href={`/${post.category}/${post.slug.current}`}
                 className="group bg-white border border-gray rounded-sm overflow-hidden hover:shadow-xl transition-all duration-300"
               >
                 {/* Image */}
@@ -42,7 +42,12 @@ export default async function BlogPage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-4 left-4 bg-gold text-white px-3 py-1 text-xs uppercase tracking-wider">
-                    {post.category}
+                    {post.category === 'uncategorized' ? 'Uncategorized' :
+                     post.category === 'guide' ? 'Guide' :
+                     post.category === 'areas' ? 'Areas' :
+                     post.category === 'buyer' ? 'Buyer' :
+                     post.category === 'seller' ? 'Seller' :
+                     post.category === 'news' ? 'News' : post.category}
                   </div>
                 </div>
 

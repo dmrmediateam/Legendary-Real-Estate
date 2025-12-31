@@ -10,7 +10,9 @@
     "sanity": "sanity dev",
     "sanity:build": "sanity build",
     "sanity:deploy": "sanity deploy",
-    "migrate:wordpress": "tsx scripts/migrate-wordpress.ts"
+    "migrate:wordpress": "tsx scripts/migrate-wordpress.ts",
+    "update:authors": "tsx scripts/update-author-names.ts",
+    "update:categories": "tsx scripts/update-blog-categories.ts"
   },
   "dependencies": {
     "@portabletext/react": "^4.0.3",
