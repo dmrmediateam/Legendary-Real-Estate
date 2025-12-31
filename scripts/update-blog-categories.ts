@@ -66,9 +66,9 @@ function fetchSitemap(): Promise<string> {
 function parseSitemap(xml: string): Map<string, string> {
   const urlMap = new Map<string, string>();
   
-  // Match all <loc> tags
+  // Match all <loc> tags - convert iterator to array for TypeScript compatibility
   const locRegex = /<loc>(https?:\/\/[^<]+)<\/loc>/g;
-  const matches = xml.matchAll(locRegex);
+  const matches = Array.from(xml.matchAll(locRegex));
   
   for (const match of matches) {
     const url = match[1];
