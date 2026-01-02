@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { PortableText } from '@portabletext/react';
 import { getBlogPostByCategoryAndSlug, getAllBlogPosts } from '@/data/blogPosts';
 import type { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
@@ -140,8 +141,13 @@ export default async function BlogPost({
     day: 'numeric',
   });
 
+  const baseUrl = 'https://legendaryrealestateservices.com';
+  const postUrl = `${baseUrl}/${category}/${slug}`;
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Structured Data (JSON-LD) */}
+      <StructuredData post={post} url={postUrl} />
       {/* Hero Section */}
       <div className="relative h-[60vh] min-h-[500px] bg-black">
         <img

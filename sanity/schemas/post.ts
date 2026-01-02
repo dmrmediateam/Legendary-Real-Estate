@@ -109,6 +109,12 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'structuredSnippet',
+      title: 'Structured Data (JSON-LD)',
+      type: 'structuredSnippet',
+      description: 'Structured data for SEO and rich snippets',
+    }),
   ],
   preview: {
     select: {

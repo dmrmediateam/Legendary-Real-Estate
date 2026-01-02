@@ -1,6 +1,24 @@
 // Blog post data structure from Sanity CMS
 import { client } from '@/lib/sanity'
 
+export interface StructuredSnippet {
+  enable?: boolean;
+  type?: string;
+  headline?: string;
+  description?: string;
+  image?: string;
+  datePublished?: string;
+  dateModified?: string;
+  author?: string;
+  publisher?: {
+    name?: string;
+    logo?: string;
+  };
+  keywords?: string[];
+  articleSection?: string;
+  wordCount?: number;
+}
+
 export interface BlogPost {
   _id: string;
   _type: 'post';
@@ -28,6 +46,7 @@ export interface BlogPost {
     metaTitle: string;
     metaDescription: string;
   };
+  structuredSnippet?: StructuredSnippet;
 }
 
 // Sample blog post - This will be replaced by Sanity API calls
@@ -302,7 +321,8 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
     readTime,
     body,
     tags,
-    seo
+    seo,
+    structuredSnippet
   }`
   
   try {
@@ -380,7 +400,8 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     readTime,
     body,
     tags,
-    seo
+    seo,
+    structuredSnippet
   }`
   
   try {

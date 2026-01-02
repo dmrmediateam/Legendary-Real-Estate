@@ -1,0 +1,67 @@
+# Legendary Real Estate Services - LLMs.txt
+
+# About
+Legendary Real Estate Services is a premier real estate agency specializing in Lake Geneva, Wisconsin and surrounding areas. We provide expert guidance for buying and selling luxury properties, waterfront homes, and investment properties in the Geneva Lakes region.
+
+# Website
+https://legendaryrealestateservices.com
+
+# Main Services
+- Real Estate Sales (Buyers & Sellers)
+- Luxury Property Sales
+- Waterfront Properties
+- Investment Properties
+- Market Analysis & Reports
+- Property Valuations
+
+# Service Areas
+- Lake Geneva, WI
+- Fontana, WI
+- Salem, WI
+- Burlington, WI
+- Elkhorn, WI
+- Delavan, WI
+- Williams Bay, WI
+- Twin Lakes, WI
+- Genoa City, WI
+
+# Content
+- Blog posts about real estate market trends
+- Community guides
+- Buyer and seller tips
+- Market reports
+- Property listings
+
+# Technology Stack
+- Next.js 15
+- React
+- TypeScript
+- Sanity CMS
+- Tailwind CSS
+
+# Contact
+- Website: https://legendaryrealestateservices.com
+- Contact Page: https://legendaryrealestateservices.com/contact
+
+# Key Pages
+- Home: /
+- About: /about
+- Listings: /listings
+- Blog: /blog
+- Buyers: /buyers
+- Sellers: /sellers
+- Contact: /contact
+- Communities: /communities/{community-name}
+
+# Blog Structure
+Blog posts are organized by category:
+- /{category}/{slug}
+- Categories: uncategorized, guide, areas, buyer, seller, news
+
+# API
+- Sanity CMS API for content management
+- Property listings API
+
+
+
+

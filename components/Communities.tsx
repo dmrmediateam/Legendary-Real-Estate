@@ -12,32 +12,32 @@ const Communities = () => {
     { 
       name: 'Lake Geneva', 
       slug: 'lake-geneva',
-      description: 'The heart of the Geneva Lakes area - premier waterfront properties, luxury estates, and charming downtown living' 
+      image: 'https://cdn.pixabay.com/photo/2021/10/30/13/29/geneva-6754350_1280.jpg'
     },
     { 
       name: 'Fontana', 
       slug: 'fontana',
-      description: 'Exclusive lakeside community with stunning waterfront homes and resort-style amenities' 
+      image: 'https://cdn.pixabay.com/photo/2023/09/10/12/01/geneva-8244753_1280.jpg'
     },
     { 
       name: 'Salem', 
       slug: 'salem',
-      description: 'Scenic community offering beautiful homes with easy access to Lake Geneva and surrounding areas' 
+      image: 'https://cdn.pixabay.com/photo/2022/01/29/16/20/geneva-6977937_1280.jpg'
     },
     { 
       name: 'Burlington', 
       slug: 'burlington',
-      description: 'Charming community with diverse property options from historic homes to modern developments' 
+      image: 'https://cdn.pixabay.com/photo/2015/08/18/17/26/vermont-894582_1280.jpg'
     },
     { 
       name: 'Elkhorn', 
       slug: 'elkhorn',
-      description: 'Family-friendly community with excellent schools and a variety of residential options' 
+      image: 'https://cdn.pixabay.com/photo/2021/11/02/11/34/lavaux-6763006_1280.jpg'
     },
     { 
       name: 'Delavan', 
       slug: 'delavan',
-      description: 'Historic lakeside community with beautiful properties and rich heritage' 
+      image: 'https://cdn.pixabay.com/photo/2019/01/06/22/33/lake-3918137_1280.jpg'
     },
   ];
 
@@ -49,72 +49,47 @@ const Communities = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center mb-24"
+          className="text-center mb-16"
         >
-          <div className="w-24 h-px bg-[#890100] mx-auto mb-12"></div>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-black mb-8 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
             Communities We Know by Heart
           </h2>
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="w-12 h-px bg-[#890100]"></div>
-            <span className="text-[#890100] font-serif text-2xl">•</span>
-            <div className="w-12 h-px bg-[#890100]"></div>
-          </div>
-          <p className="text-sm text-black/70 max-w-3xl mx-auto font-serif" style={{ letterSpacing: '0.02em' }}>
-            Explore exceptional properties across the Geneva Lakes area and surrounding communities
-          </p>
-          <div className="w-24 h-px bg-[#890100] mx-auto mt-12"></div>
+          <div className="w-24 h-px bg-[#890100] mx-auto"></div>
         </motion.div>
 
-        {/* Service Areas Content */}
-        <div className="max-w-5xl mx-auto">
-          {/* Service Areas Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {serviceAreas.map((area, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}
-              >
-                <Link
-                  href={`/communities/${area.slug}`}
-                  className="block bg-white p-8 border border-black/10 hover:border-[#890100] transition-all duration-500 group relative overflow-hidden"
-                >
-                  <div className="absolute top-0 left-0 w-0 h-px bg-[#890100] transition-all duration-500 group-hover:w-full"></div>
-                  
-                  <div className="relative z-10">
-                    <h4 className="text-xl font-serif font-normal text-black mb-4 group-hover:text-[#890100] transition-colors duration-500 tracking-[0.05em]" style={{ letterSpacing: '0.05em' }}>
-                      {area.name}
-                    </h4>
-                    <p className="text-black/60 text-xs leading-relaxed font-serif mb-6" style={{ letterSpacing: '0.02em' }}>
-                      {area.description}
-                    </p>
-                    <div className="text-[#890100] text-xs flex items-center group-hover:translate-x-2 transition-transform duration-500 font-serif tracking-[0.1em] uppercase">
-                      View Properties
-                      <span className="ml-2 inline-block group-hover:translate-x-1 transition-transform duration-500">→</span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.7 }}
-            className="text-center"
-          >
-            <Link 
-              href="/listings" 
-              className="inline-flex items-center text-black/70 hover:text-[#890100] transition-all duration-300 border-b border-[#890100] pb-1 text-xs font-serif tracking-[0.2em] uppercase"
+        {/* Communities Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {serviceAreas.map((area, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}
+              className="relative"
             >
-              View Properties
-              <span className="ml-2">→</span>
-            </Link>
-          </motion.div>
+              <Link
+                href={`/communities/${area.slug}`}
+                className="block relative h-64 md:h-80 overflow-hidden group"
+              >
+                {/* Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${area.image})` }}
+                >
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-500"></div>
+                </div>
+                
+                {/* Content */}
+                <div className="relative h-full flex items-center justify-center p-8">
+                  <h4 className="text-2xl md:text-3xl font-serif font-normal text-white text-center">
+                    Explore<br />
+                    <strong>{area.name}</strong>
+                  </h4>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
