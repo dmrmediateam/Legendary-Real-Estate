@@ -1,0 +1,560 @@
+/**
+ * iHomeFinder Optima IDX Custom CSS
+ * For Legendary Real Estate Services
+ * 
+ * Add this CSS to your IDX backend integration:
+ * - IDX Stylesheet section (for v10)
+ * - Or inject into the page head
+ * 
+ * Pages: /listings and /listing?id=...
+ */
+
+/* ============================================
+   GLOBAL IDX STYLES
+   ============================================ */
+
+/* Import site fonts */
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Root variables matching site design */
+:root {
+  --idx-primary: #890100;
+  --idx-primary-hover: #a00100;
+  --idx-primary-dark: #6b0000;
+  --idx-text: #1a1a1a;
+  --idx-text-secondary: #5a5a5a;
+  --idx-bg: #ffffff;
+  --idx-bg-light: #faf9f7;
+  --idx-border: rgba(0, 0, 0, 0.1);
+  --idx-border-light: rgba(0, 0, 0, 0.05);
+  --idx-font-heading: 'PT Serif', serif;
+  --idx-font-body: 'Montserrat', sans-serif;
+}
+
+/* ============================================
+   LISTINGS SEARCH PAGE (/listings)
+   ============================================ */
+
+/* Search Form Container */
+.ihf-search-form,
+.ihf-advanced-search,
+.ihf-quick-search,
+[id*="ihf"],
+[id*="kestrel"] {
+  font-family: var(--idx-font-body) !important;
+}
+
+/* Search Form Inputs */
+.ihf-search-form input[type="text"],
+.ihf-search-form input[type="number"],
+.ihf-search-form select,
+.ihf-advanced-search input,
+.ihf-advanced-search select,
+[id*="ihf"] input,
+[id*="ihf"] select {
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  padding: 12px 16px !important;
+  border: 1px solid var(--idx-border) !important;
+  border-radius: 2px !important;
+  color: var(--idx-text) !important;
+  background-color: var(--idx-bg) !important;
+  transition: border-color 0.3s ease !important;
+}
+
+.ihf-search-form input:focus,
+.ihf-search-form select:focus,
+.ihf-advanced-search input:focus,
+.ihf-advanced-search select:focus {
+  outline: none !important;
+  border-color: var(--idx-primary) !important;
+  box-shadow: 0 0 0 3px rgba(137, 1, 0, 0.1) !important;
+}
+
+/* Search Form Labels */
+.ihf-search-form label,
+.ihf-advanced-search label {
+  font-family: var(--idx-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--idx-text) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+/* Search Buttons */
+.ihf-search-form button,
+.ihf-search-form input[type="submit"],
+.ihf-advanced-search button,
+.ihf-advanced-search input[type="submit"],
+[id*="ihf"] button[type="submit"],
+[id*="ihf"] .ihf-button {
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  background-color: var(--idx-primary) !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 12px 32px !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.ihf-search-form button:hover,
+.ihf-search-form input[type="submit"]:hover,
+.ihf-advanced-search button:hover,
+.ihf-advanced-search input[type="submit"]:hover,
+[id*="ihf"] button[type="submit"]:hover {
+  background-color: var(--idx-primary-hover) !important;
+}
+
+/* Property Cards/Listings Grid */
+.ihf-listing-card,
+.ihf-property-card,
+.ihf-listing-item,
+[id*="ihf"] .property-card,
+[id*="ihf"] .listing-card {
+  background-color: var(--idx-bg) !important;
+  border: 1px solid var(--idx-border-light) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease !important;
+  margin-bottom: 24px !important;
+}
+
+.ihf-listing-card:hover,
+.ihf-property-card:hover,
+.ihf-listing-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border-color: var(--idx-primary) !important;
+}
+
+/* Property Images */
+.ihf-listing-card img,
+.ihf-property-card img,
+.ihf-listing-item img,
+[id*="ihf"] .property-image img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  object-fit: cover !important;
+}
+
+/* Property Details Container */
+.ihf-listing-details,
+.ihf-property-details,
+.ihf-listing-item .details {
+  padding: 20px !important;
+}
+
+/* Property Address/Title */
+.ihf-listing-card h3,
+.ihf-listing-card h4,
+.ihf-property-card h3,
+.ihf-property-card h4,
+.ihf-listing-item h3,
+[id*="ihf"] .property-address,
+[id*="ihf"] .property-title {
+  font-family: var(--idx-font-heading) !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  color: var(--idx-text) !important;
+  margin: 0 0 12px 0 !important;
+  line-height: 1.4 !important;
+}
+
+/* Property Price */
+.ihf-listing-card .price,
+.ihf-property-card .price,
+.ihf-listing-item .price,
+[id*="ihf"] .property-price {
+  font-family: var(--idx-font-heading) !important;
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  color: var(--idx-primary) !important;
+  margin: 0 0 12px 0 !important;
+}
+
+/* Property Details (Beds, Baths, SqFt) */
+.ihf-listing-card .details,
+.ihf-property-card .details,
+.ihf-listing-item .details,
+[id*="ihf"] .property-stats {
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  color: var(--idx-text-secondary) !important;
+  margin: 12px 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+}
+
+.ihf-listing-card .details span,
+.ihf-property-card .details span {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* View Details Link */
+.ihf-listing-card a,
+.ihf-property-card a,
+.ihf-listing-item a,
+[id*="ihf"] .view-details,
+[id*="ihf"] .property-link {
+  color: var(--idx-primary) !important;
+  text-decoration: none !important;
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: color 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.ihf-listing-card a:hover,
+.ihf-property-card a:hover,
+.ihf-listing-item a:hover {
+  color: var(--idx-primary-hover) !important;
+}
+
+/* Pagination */
+.ihf-pagination,
+[id*="ihf"] .pagination {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 40px 0 !important;
+  font-family: var(--idx-font-body) !important;
+}
+
+.ihf-pagination a,
+.ihf-pagination button,
+[id*="ihf"] .pagination a,
+[id*="ihf"] .pagination button {
+  padding: 8px 16px !important;
+  border: 1px solid var(--idx-border) !important;
+  background-color: var(--idx-bg) !important;
+  color: var(--idx-text) !important;
+  text-decoration: none !important;
+  border-radius: 2px !important;
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  transition: all 0.3s ease !important;
+}
+
+.ihf-pagination a:hover,
+.ihf-pagination button:hover {
+  background-color: var(--idx-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--idx-primary) !important;
+}
+
+.ihf-pagination .active,
+.ihf-pagination .current,
+[id*="ihf"] .pagination .active {
+  background-color: var(--idx-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--idx-primary) !important;
+}
+
+/* Results Count */
+.ihf-results-count,
+[id*="ihf"] .results-count {
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  color: var(--idx-text-secondary) !important;
+  margin-bottom: 24px !important;
+}
+
+/* ============================================
+   LISTING DETAIL PAGE (/listing?id=...)
+   ============================================ */
+
+/* Listing Detail Container */
+.ihf-listing-detail,
+.ihf-property-detail,
+[id*="ihf"] .listing-detail-container {
+  font-family: var(--idx-font-body) !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+}
+
+/* Property Header */
+.ihf-listing-detail .header,
+.ihf-property-detail .header,
+[id*="ihf"] .property-header {
+  margin-bottom: 32px !important;
+}
+
+/* Property Address (Detail Page) */
+.ihf-listing-detail h1,
+.ihf-property-detail h1,
+[id*="ihf"] .property-address-detail {
+  font-family: var(--idx-font-heading) !important;
+  font-size: 36px !important;
+  font-weight: 400 !important;
+  color: var(--idx-text) !important;
+  margin: 0 0 12px 0 !important;
+  line-height: 1.3 !important;
+}
+
+/* Property Price (Detail Page) */
+.ihf-listing-detail .price,
+.ihf-property-detail .price,
+[id*="ihf"] .property-price-detail {
+  font-family: var(--idx-font-heading) !important;
+  font-size: 32px !important;
+  font-weight: 400 !important;
+  color: var(--idx-primary) !important;
+  margin: 0 0 24px 0 !important;
+}
+
+/* Property Images Gallery */
+.ihf-listing-detail .gallery,
+.ihf-property-detail .gallery,
+[id*="ihf"] .property-gallery {
+  margin-bottom: 40px !important;
+}
+
+.ihf-listing-detail .gallery img,
+.ihf-property-detail .gallery img,
+[id*="ihf"] .property-gallery img {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 2px !important;
+}
+
+/* Property Details Grid */
+.ihf-listing-detail .details-grid,
+.ihf-property-detail .details-grid,
+[id*="ihf"] .property-details-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 24px !important;
+  margin-bottom: 40px !important;
+  padding: 24px !important;
+  background-color: var(--idx-bg-light) !important;
+  border-radius: 2px !important;
+}
+
+.ihf-listing-detail .detail-item,
+.ihf-property-detail .detail-item,
+[id*="ihf"] .property-detail-item {
+  font-family: var(--idx-font-body) !important;
+}
+
+.ihf-listing-detail .detail-item label,
+.ihf-property-detail .detail-item label,
+[id*="ihf"] .property-detail-item label {
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--idx-text-secondary) !important;
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+
+.ihf-listing-detail .detail-item .value,
+.ihf-property-detail .detail-item .value,
+[id*="ihf"] .property-detail-item .value {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: var(--idx-text) !important;
+}
+
+/* Property Description */
+.ihf-listing-detail .description,
+.ihf-property-detail .description,
+[id*="ihf"] .property-description {
+  font-family: var(--idx-font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  color: var(--idx-text) !important;
+  margin-bottom: 40px !important;
+}
+
+.ihf-listing-detail .description p,
+.ihf-property-detail .description p {
+  margin-bottom: 16px !important;
+}
+
+/* Contact Form / Request Info */
+.ihf-contact-form,
+.ihf-request-info,
+[id*="ihf"] .contact-form {
+  background-color: var(--idx-bg-light) !important;
+  padding: 32px !important;
+  border-radius: 2px !important;
+  margin-top: 40px !important;
+}
+
+.ihf-contact-form h3,
+.ihf-request-info h3,
+[id*="ihf"] .contact-form h3 {
+  font-family: var(--idx-font-heading) !important;
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  color: var(--idx-text) !important;
+  margin: 0 0 24px 0 !important;
+}
+
+.ihf-contact-form input,
+.ihf-contact-form textarea,
+.ihf-request-info input,
+.ihf-request-info textarea,
+[id*="ihf"] .contact-form input,
+[id*="ihf"] .contact-form textarea {
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  padding: 12px 16px !important;
+  border: 1px solid var(--idx-border) !important;
+  border-radius: 2px !important;
+  width: 100% !important;
+  margin-bottom: 16px !important;
+  background-color: var(--idx-bg) !important;
+  color: var(--idx-text) !important;
+}
+
+.ihf-contact-form input:focus,
+.ihf-contact-form textarea:focus {
+  outline: none !important;
+  border-color: var(--idx-primary) !important;
+  box-shadow: 0 0 0 3px rgba(137, 1, 0, 0.1) !important;
+}
+
+.ihf-contact-form button,
+.ihf-contact-form input[type="submit"],
+.ihf-request-info button,
+.ihf-request-info input[type="submit"] {
+  font-family: var(--idx-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  background-color: var(--idx-primary) !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 14px 32px !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: background-color 0.3s ease !important;
+  width: 100% !important;
+}
+
+.ihf-contact-form button:hover,
+.ihf-contact-form input[type="submit"]:hover {
+  background-color: var(--idx-primary-hover) !important;
+}
+
+/* Map Container */
+.ihf-map,
+[id*="ihf"] .property-map {
+  margin: 40px 0 !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+}
+
+/* Features/Amenities List */
+.ihf-features,
+.ihf-amenities,
+[id*="ihf"] .property-features {
+  font-family: var(--idx-font-body) !important;
+  margin: 40px 0 !important;
+}
+
+.ihf-features ul,
+.ihf-amenities ul {
+  list-style: none !important;
+  padding: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.ihf-features li,
+.ihf-amenities li {
+  font-size: 14px !important;
+  color: var(--idx-text) !important;
+  padding-left: 24px !important;
+  position: relative !important;
+}
+
+.ihf-features li:before,
+.ihf-amenities li:before {
+  content: "✓" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: var(--idx-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================
+   SHADOW DOM OVERRIDES (v10 only)
+   ============================================ */
+
+/* If using Shadow DOM, these CSS variables can be used */
+ihf-kestrel,
+[id*="ihf-kestrel"] {
+  --ihf-primary-color: #890100;
+  --ihf-primary-hover: #a00100;
+  --ihf-text-color: #1a1a1a;
+  --ihf-text-secondary: #5a5a5a;
+  --ihf-bg-color: #ffffff;
+  --ihf-border-color: rgba(0, 0, 0, 0.1);
+  --ihf-font-heading: 'PT Serif', serif;
+  --ihf-font-body: 'Montserrat', sans-serif;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .ihf-listing-detail h1,
+  .ihf-property-detail h1 {
+    font-size: 28px !important;
+  }
+  
+  .ihf-listing-detail .price,
+  .ihf-property-detail .price {
+    font-size: 24px !important;
+  }
+  
+  .ihf-listing-detail .details-grid,
+  .ihf-property-detail .details-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .ihf-features ul,
+  .ihf-amenities ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================
+   UTILITY OVERRIDES
+   ============================================ */
+
+/* Remove any default IDX styling that conflicts */
+.ihf-listing-card *,
+.ihf-property-card *,
+[id*="ihf"] * {
+  box-sizing: border-box !important;
+}
+
+/* Ensure proper spacing */
+.ihf-container,
+[id*="ihf"] .container {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+}
+

@@ -59,16 +59,16 @@ const Communities = () => {
 
         {/* Communities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {serviceAreas.map((area, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}
+            {serviceAreas.map((area, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}
               className="relative"
-            >
-              <Link
-                href={`/communities/${area.slug}`}
+              >
+                <Link
+                  href={`/communities/${area.slug}`}
                 className="block relative h-64 md:h-80 overflow-hidden group"
               >
                 {/* Background Image */}
@@ -85,11 +85,11 @@ const Communities = () => {
                   <h4 className="text-2xl md:text-3xl font-serif font-normal text-white text-center">
                     Explore<br />
                     <strong>{area.name}</strong>
-                  </h4>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                    </h4>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
         </div>
       </div>
     </section>

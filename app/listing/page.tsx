@@ -1,39 +1,74 @@
-'use client';
+import { Metadata } from 'next';
+import Script from 'next/script';
 
-import { useEffect } from 'react';
+interface ListingPageProps {
+  searchParams: Promise<{
+    listingPhotoUrl?: string;
+    listingPhotoWidth?: string;
+    listingPhotoHeight?: string;
+    listingAddress?: string;
+    listingCity?: string;
+  }>;
+}
 
-export default function ListingPage() {
-  useEffect(() => {
-    // Add the iHomefinder script to the body as requested
-    const script = document.createElement('script');
-    script.textContent = `
-      document.currentScript.replaceWith(ihfKestrel.render());
-    `;
-    document.body.appendChild(script);
-  }, []);
+export async function generateMetadata({ 
+  searchParams 
+}: ListingPageProps): Promise<Metadata> {
+  const resolvedSearchParams = await searchParams;
+  
+  const {
+    listingPhotoUrl,
+    listingPhotoWidth,
+    listingPhotoHeight,
+    listingAddress,
+    listingCity
+  } = resolvedSearchParams;
 
+  // Default values if not provided
+  const address = listingAddress || 'Property Listings';
+  const city = listingCity || '';
+  const photoUrl = listingPhotoUrl || '';
+  const photoWidth = listingPhotoWidth || '1200';
+  const photoHeight = listingPhotoHeight || '800';
+
+  const metadata: Metadata = {
+    title: address,
+    description: `Photos and Property Details for ${address}. Get complete property information, maps, street view, schools, walk score and more. Request additional information, schedule a showing, save to your property organizer.`,
+    keywords: `${address}${city ? `, ${city} Real Estate, ${city} Property for Sale` : ''}`,
+  };
+
+  // Add Open Graph image if photo URL is provided
+  if (photoUrl) {
+    metadata.openGraph = {
+      images: [
+        {
+          url: photoUrl,
+          width: parseInt(photoWidth),
+          height: parseInt(photoHeight),
+          alt: `${address} property photo`,
+        },
+      ],
+    };
+  }
+
+  return metadata;
+}
+
+export default async function ListingPage({ searchParams }: ListingPageProps) {
   return (
-    <div className="min-h-screen">
-      {/* Page Header */}
-      <section className="section-padding bg-gray-light">
-        <div className="container-max text-center">
-          <h1 className="text-4xl sm:text-5xl font-light text-black mb-6">
-            Property Listings
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover your perfect home with our comprehensive property listings
-          </p>
-        </div>
-      </section>
-
-      {/* iHomeFinder Listings Widget will be rendered here by the script */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="w-full min-h-96">
-            {/* The iHomefinder widget will be injected here */}
-          </div>
-        </div>
-      </section>
-    </div>
+    <>
+      {/* iHomeFinder Kestrel Render Script */}
+      <Script
+        id="ihf-kestrel-listing-render"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            if (typeof window !== 'undefined' && window.ihfKestrel && window.ihfKestrel.render) {
+              document.currentScript.replaceWith(ihfKestrel.render());
+            }
+          `,
+        }}
+      />
+    </>
   );
 }

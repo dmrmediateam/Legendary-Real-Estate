@@ -32,7 +32,7 @@ export async function generateStaticParams() {
     const urlCategory = normalizeCategoryFromSanity(post.category);
     return {
       category: urlCategory || 'uncategorized', // Default to uncategorized if no match
-      slug: post.slug.current,
+    slug: post.slug.current,
     };
   });
 }
