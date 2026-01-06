@@ -71,6 +71,7 @@ export default async function RootLayout({
               ihfKestrel.config = {
                 platform: "custom",
                 activationToken: "2d411d15-be99-4140-a73b-1dc1e448192a",
+                baseUrl: "https://legendaryrealestateservices.com",
               };
             `,
           }}
