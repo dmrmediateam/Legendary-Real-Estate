@@ -117,6 +117,15 @@ const Footer = ({ brandSettings }: FooterProps) => {
       .replace(/[^a-z0-9-]/g, '');
   };
 
+  const getAreaHref = (area: string) => {
+    if (/\sWI$/.test(area)) {
+      const baseArea = area.replace(/\sWI$/, '');
+      return `/${getAreaSlug(baseArea)}-wi-real-estate-and-homes-for-sale`;
+    }
+
+    return `/${getAreaSlug(area)}`;
+  };
+
   const allAreas = [...mainAreas, ...propertyAreas];
   const initialCount = 12;
   const displayedAreas = isAreasExpanded ? allAreas : mainAreas.slice(0, initialCount);
@@ -133,7 +142,7 @@ const Footer = ({ brandSettings }: FooterProps) => {
             {displayedAreas.map((area, index) => (
               <Link
                 key={index}
-                href={`/${getAreaSlug(area)}`}
+                href={getAreaHref(area)}
                 className="text-white/50 hover:text-white/80 transition-colors duration-300 font-serif text-xs tracking-[0.05em] uppercase relative group py-1"
                 style={{ letterSpacing: '0.05em' }}
               >
